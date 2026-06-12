@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Syalwa Arifia | Interactive Digital Garden</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Konfigurasi Tailwind Custom -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FFFDF8',
+                        matchaLight: '#EEF5E7',
+                        primary: '#7BA05B',
+                        secondary: '#F47C96',
+                        accent: '#D85C77',
+                        matcha: '#4E6B3F',
+                        choco: '#6B4F4F',
+                    },
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Sembunyikan cursor asli di desktop */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            a, button, input, textarea { cursor: none !important; }
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #FFFDF8;
+            color: #6B4F4F;
+            overflow-x: hidden;
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: #FFFDF8;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.8s ease;
+        }
+        .loader-icon {
+            font-size: 4rem;
+            animation: bounce-spin 2s infinite ease-in-out;
+        }
+        @keyframes bounce-spin {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            50% { transform: translateY(-30px) rotate(180deg) scale(1.2); }
+        }
+
+        /* Custom Cursor */
+        #custom-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 24px; height: 24px;
+            background: rgba(244, 124, 150, 0.4); /* Strawberry pink transparan */
+            border: 2px solid #F47C96;
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 10000;
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+        }
+        #custom-cursor.hovering {
+            width: 50px; height: 50px;
+            background: rgba(123, 160, 91, 0.2); /* Matcha green */
+            border-color: #7BA05B;
+        }
+        #custom-cursor::after {
+            content: '🍓';
+            opacity: 1;
+            transition: opacity 0.2s;
+        }
+        #custom-cursor.hovering::after {
+            content: 'CLICK';
+            font-weight: bold;
+            color: #7BA05B;
+        }
+
+        /* Canvas Particle Background */
+        #garden-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Gradien Text & Blob */
+        .text-gradient {
+            background: linear-gradient(135deg, #7BA05B, #F47C96, #D85C77);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 3s linear infinite;
+        }
+        @keyframes shine { to { background-position: 200% center; } }
+
+        /* Glassmorphism Mewah */
+        .glass-nav {
+            background: rgba(255, 253, 248, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(123, 160, 91, 0.15);
+        }
+
+        .card-glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(107, 79, 79, 0.05), inset 0 0 0 1px rgba(255,255,255,0.5);
+            transform-style: preserve-3d;
+        }
+
+        /* Element 3D di dalam card */
+        .card-glass > * { transform: translateZ(30px); }
+
+        /* Uap Matcha Mengambang */
+        .steam {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float-blob 10s ease-in-out infinite alternate;
+            z-index: -2;
+        }
+        .steam-1 { width: 400px; height: 400px; background: #BFD8B8; top: 10%; left: 5%; }
+        .steam-2 { width: 350px; height: 350px; background: #F8BBD0; top: 50%; right: 5%; animation-delay: -5s; }
+
+        @keyframes float-blob {
+            0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+            100% { transform: translate(50px, -50px) scale(1.2) rotate(20deg); }
+        }
+
+        /* Custom Badges */
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .badge-matcha { background: linear-gradient(135deg, #EEF5E7, #e0eccf); color: #4E6B3F; border: 1px solid #7BA05B; }
+        .badge-strawberry { background: linear-gradient(135deg, #FFF0F3, #ffe0e6); color: #D85C77; border: 1px solid #F47C96; }
+
+        /* Squishy Button Animation */
+        .btn-squish { transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); }
+        .btn-squish:active { transform: scale(0.92); }
+
+        /* Image Hover Reveal */
+        .project-img-wrapper { overflow: hidden; border-radius: 1.5rem; }
+        .project-img { transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+        .project-card:hover .project-img { transform: scale(1.1) rotate(2deg); }
+    </style>
+</head>
+<body class="antialiased selection:bg-secondary selection:text-white relative">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-icon">🍓</div>
+        <h2 class="text-matcha font-bold mt-4 tracking-widest animate-pulse">PLUCKING STRAWBERRIES...</h2>
+    </div>
+
+    <!-- Interactive Background -->
+    <canvas id="garden-canvas"></canvas>
+    
+    <!-- Steam Backgrounds -->
+    <div class="steam steam-1"></div>
+    <div class="steam steam-2"></div>
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="hidden md:flex"></div>
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="logo-text text-2xl font-extrabold tracking-tight text-matcha hover:scale-105 transition-transform">
+                        kenya<span class="text-secondary">.studio</span> <span class="text-xl">✨</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#home" class="text-choco hover:text-primary transition duration-300 font-bold hover:-translate-y-1 inline-block transform">Home</a>
+                    <a href="#skills" class="text-choco hover:text-primary transition duration-300 font-bold hover:-translate-y-1 inline-block transform">Garden</a>
+                    <a href="#portfolio" class="text-choco hover:text-primary transition duration-300 font-bold hover:-translate-y-1 inline-block transform">Projects</a>
+                    <a href="#contact" class="bg-primary hover:bg-matcha text-white px-6 py-2.5 rounded-full transition duration-300 font-bold shadow-lg shadow-primary/30 btn-squish">Say Hello! 🌱</a>
+                </div>
+
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-matcha focus:outline-none p-2 btn-squish">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center gsap-hero">
+            
+            <div class="inline-block hover:animate-bounce cursor-pointer" onclick="createBurst(event)">
+                <span class="text-secondary font-extrabold tracking-widest uppercase text-sm mb-6 block bg-white/60 px-5 py-2 rounded-full border-2 border-secondary/30 shadow-sm backdrop-blur-sm">
+                    HELLO, I'M KENYA 🌱🍓
+                </span>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-4 text-matcha" style="line-height: 1.1;">
+                Kenya Syalwa <br/> <span class="text-gradient">Arifia</span>
+            </h1>
+            
+            <p class="mt-4 text-lg md:text-xl text-choco/90 mx-auto mb-10 max-w-2xl leading-relaxed font-medium">
+                I enjoy exploring the intersection of technology, creativity, and human experiences. From building games and dashboards to crafting digital stories.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#portfolio" class="bg-primary hover:bg-matcha text-white px-8 py-4 rounded-full transition-all duration-300 font-extrabold shadow-xl shadow-primary/40 flex items-center justify-center gap-2 btn-squish hover:-translate-y-1">
+                    Explore My Garden <i class="fas fa-leaf animate-bounce"></i>
+                </a>
+                <a href="#contact" class="bg-white border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-8 py-4 rounded-full transition-all duration-300 font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 btn-squish hover:-translate-y-1">
+                    Let's Connect <i class="fas fa-mug-hot"></i>
+                </a>
+            </div>
+            
+            <div class="mt-16 text-sm font-bold text-choco/50 animate-bounce">
+                Scroll Down or Click Anywhere! 👇
+            </div>
+        </div>
+    </section>
+
+    <!-- Garden / Skills Section -->
+    <section id="skills" class="py-24 relative z-10 bg-matchaLight/50 border-y border-primary/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-fade-up">
+                <span class="text-primary font-extrabold tracking-widest uppercase text-sm mb-2 block">What's Growing in</span>
+                <h2 class="text-5xl font-extrabold text-matcha">My Digital <span class="text-gradient">Garden</span> 🍄</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gsap-stagger">
+                
+                <!-- Skill Cards with 3D Tilt -->
+                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-100 to-green-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🌱</div>
+                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Code</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="badge badge-matcha">Python</span>
+                        <span class="badge badge-matcha">HTML</span>
+                        <span class="badge badge-matcha">JAVA</span>
+                        <span class="badge badge-matcha">C#</span>
+                        <span class="badge badge-matcha">PHP</span>
+                        <span class="badge badge-matcha">SQL</span>
+                    </div>
+                </div>
+
+                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-red-100 to-red-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🍓</div>
+                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Data</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="badge badge-strawberry">Pentaho</span>
+                        <span class="badge badge-strawberry">Metabase</span>
+                        <span class="badge badge-strawberry">ETL</span>
+                        <span class="badge badge-strawberry">MySQL</span>
+                    </div>
+                </div>
+
+                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-100 to-blue-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🎨</div>
+                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Create</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #7dd3fc;">UI/UX</span>
+                        <span class="badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #7dd3fc;">Canva</span>
+                        <span class="badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #7dd3fc;">Adobe Illustrator</span>
+                    </div>
+                </div>
+
+                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
+                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">✨</div>
+                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Connect</h3>
+                    <div class="flex flex-wrap justify-center gap-2">
+                        <span class="badge" style="background:#fef3c7; color:#d97706; border:1px solid #fcd34d;">Teamwork</span>
+                        <span class="badge" style="background:#fef3c7; color:#d97706; border:1px solid #fcd34d;">Leadership</span>
+                        <span class="badge" style="background:#fef3c7; color:#d97706; border:1px solid #fcd34d;">Pitching</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 gsap-fade-up">
+                <span class="text-secondary font-extrabold tracking-widest uppercase text-sm mb-2 block">The Harvest</span>
+                <h2 class="text-5xl font-extrabold text-matcha">My <span class="text-gradient">Projects</span> 🧺</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Project 1 (Large) -->
+                <div class="project-card card-glass rounded-[2.5rem] overflow-hidden lg:col-span-2 flex flex-col md:flex-row gsap-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
+                    <div class="p-8 md:w-1/2 flex flex-col justify-center transform translate-z-10">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge badge-matcha">🎮 Unity</span>
+                            <span class="badge badge-strawberry">👥 Team Project</span>
+                        </div>
+                        <h3 class="text-3xl font-extrabold mb-3 text-matcha">at The Museum</h3>
+                        <p class="text-choco/80 font-medium mb-8 text-lg leading-relaxed">An interactive simulation game built in Unity. This project challenged me to blend programming logic with engaging storytelling and user experience.</p>
+                    </div>
+                </div>
+
+                
+
+
+                <!-- Project 4 -->
+                <div class="project-card card-glass rounded-[2.5rem] overflow-hidden flex flex-col gsap-card lg:col-span-2 md:flex-row" data-tilt data-tilt-max="5">
+                    <div class="p-8 md:w-1/2 flex flex-col justify-center order-2 md:order-1">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge badge-matcha">🐘 Java</span>
+                            <span class="badge" style="background:#f3e8ff; color:#9333ea; border:1px solid #d8b4fe;">☁️ Learning</span>
+                        </div>
+                        <h3 class="text-3xl font-extrabold mb-3 text-matcha">Simple Tic Tac Toe Game</h3>
+                        <p class="text-choco/80 font-medium mb-8 text-lg">Created a simple tic tac toe game using java. Created this as a learning project and use it as a stepping stone in java learning journey.</p>
+                        <a href="https://github.com/KenyaLim/tictactoeJava.git" class="inline-flex items-center text-secondary font-bold hover:text-accent mt-auto group">
+                            View Code <i class="fab fa-github ml-2 text-lg transition-transform group-hover:rotate-12"></i>
+                        </a>
+                    </div>
+                    <div class="project-img-wrapper md:w-1/2 relative h-64 md:h-auto m-4 rounded-[2rem] order-1 md:order-2">
+                        <img src=ttt.png class="project-img w-full h-full object-cover">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Contact -->
+    <footer id="contact" class="bg-matchaLight/80 border-t border-primary/20 pt-24 pb-12 relative z-10 overflow-hidden">
+        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+            <h2 class="text-5xl md:text-6xl font-extrabold mb-6 text-matcha">Let's Create <br/> <span class="text-gradient">Something Cute!</span> 💌</h2>
+            <p class="text-choco/80 font-medium text-xl mb-10">Inbox is always open for tech, design, or matcha recommendations.</p>
+            
+            <div class="flex justify-center gap-4 mb-16">
+                <p class="bg-secondary text-white px-8 py-4 rounded-full transition-all duration-300 font-extrabold shadow-xl shadow-secondary/30 btn-squish text-lg flex items-center">
+                    Email to Kenyasyalwa@gmail.com
+                </p>
+            </div>
+            
+            <p class="text-choco/60 font-bold">
+                Crafted with curiosity, matcha, & physics algorithms. <br> &copy; <span id="year"></span> Kenya Syalwa Arifia.
+            </p>
+        </div>
+        
+        <!-- Big decorative icons in footer -->
+        <div class="absolute -bottom-10 -left-10 text-9xl opacity-20 transform -rotate-12 select-none">🍓</div>
+        <div class="absolute top-10 -right-10 text-9xl opacity-20 transform rotate-12 select-none">🍵</div>
+    </footer>
+
+    <!-- Scripts: Vanilla Tilt (3D) & GSAP (Animations) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // 1. Preloader Logic
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.display = 'none'; initGSAP(); }, 800);
+            }, 1000); // Tampil minimal 1 detik agar lucunya kelihatan
+        });
+
+        // Update Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 2. Custom Cursor Logic (Desktop Only)
+        const cursor = document.getElementById('custom-cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+            });
+
+            const hoverElements = document.querySelectorAll('a, button, .cursor-pointer');
+            hoverElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('hovering'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('hovering'));
+            });
+        }
+
+        // 3. Canvas Particle Engine (Game Vibe & Heavy Logic)
+        const canvas = document.getElementById('garden-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        const emojis = ['🍓', '🍵', '🍃', '✨', '🌸'];
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor(x, y, isBurst = false) {
+                this.x = x || Math.random() * width;
+                this.y = y || Math.random() * -height;
+                this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                this.size = Math.random() * 20 + 10;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.speedX = Math.random() * 2 - 1;
+                this.angle = Math.random() * 360;
+                this.spin = Math.random() * 4 - 2;
+                
+                if (isBurst) {
+                    this.speedY = (Math.random() - 0.5) * 10;
+                    this.speedX = (Math.random() - 0.5) * 10;
+                    this.size = Math.random() * 30 + 20;
+                }
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.y / 50) * 0.5; // Sway effect
+                this.angle += this.spin;
+                
+                // Tambah gravitasi kalau ini dari ledakan (burst)
+                if (this.speedY < 3) this.speedY += 0.05; 
+
+                // Reset kalau jatuh ke bawah
+                if (this.y > height + 50) {
+                    this.y = -50;
+                    this.x = Math.random() * width;
+                    this.speedY = Math.random() * 1 + 0.5;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.font = `${this.size}px Arial`;
+                ctx.globalAlpha = 0.6; // Transparan agar tidak menutupi konten
+                ctx.fillText(this.emoji, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        // Init normal falling particles
+        for (let i = 0; i < 30; i++) { particles.push(new Particle()); }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // 4. Interactive Burst on Click (Game-like interaction)
+        function createBurst(e) {
+            const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+            const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+            
+            // Pop cursor animation
+            cursor.style.transform = `translate(calc(${clientX}px - 50%), calc(${clientY}px - 50%)) scale(1.5)`;
+            setTimeout(() => {
+                cursor.style.transform = `translate(calc(${clientX}px - 50%), calc(${clientY}px - 50%)) scale(1)`;
+            }, 100);
+
+            // Spawn particles
+            for (let i = 0; i < 15; i++) {
+                particles.push(new Particle(clientX, clientY, true));
+            }
+            
+            // Limit particles array to avoid memory leak
+            if (particles.length > 100) particles.splice(0, particles.length - 30);
+        }
+        window.addEventListener('click', createBurst);
+        window.addEventListener('touchstart', createBurst);
+
+        // 6. GSAP Scroll Animations (HEAVY / WOW Factor)
+        function initGSAP() {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Hero Animation
+            gsap.from(".gsap-hero > *", { y: 50, opacity: 0, duration: 1, stagger: 0.15, ease: "back.out(1.7)" });
+
+            // About Animations
+            gsap.from(".gsap-fade-right", { 
+                scrollTrigger: { trigger: "#about", start: "top 80%" },
+                x: -100, opacity: 0, duration: 1, ease: "power3.out" 
+            });
+            gsap.from(".gsap-fade-left > *", { 
+                scrollTrigger: { trigger: "#about", start: "top 80%" },
+                x: 100, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out" 
+            });
+
+            // Skills Animation
+            gsap.from(".gsap-fade-up > *", {
+                scrollTrigger: { trigger: "#skills", start: "top 85%" },
+                y: 50, opacity: 0, duration: 0.8, stagger: 0.1
+            });
+            gsap.from(".gsap-stagger > div", {
+                scrollTrigger: { trigger: ".gsap-stagger", start: "top 80%" },
+                y: 100, opacity: 0, duration: 0.8, stagger: 0.15, ease: "back.out(1.5)"
+            });
+
+            // Portfolio Animation
+            gsap.utils.toArray('.gsap-card').forEach(card => {
+                gsap.from(card, {
+                    scrollTrigger: { trigger: card, start: "top 85%" },
+                    y: 80, opacity: 0, duration: 1, scale: 0.95, ease: "power4.out"
+                });
+            });
+        }
+
+        // Mobile Menu
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                gsap.from("#mobile-menu a", { y: 20, opacity: 0, duration: 0.4, stagger: 0.1 });
+            } else {
+                menu.classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

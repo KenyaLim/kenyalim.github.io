@@ -1,0 +1,144 @@
+/* Global Body */
+@media (pointer: fine) {
+    body { cursor: none; }
+    a, button, input, textarea { cursor: none !important; }
+}
+
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: #FFFDF8;
+    color: #6B4F4F;
+    overflow-x: hidden;
+}
+
+/* Preloader */
+#preloader {
+    position: fixed;
+    inset: 0;
+    background: #FFFDF8;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    transition: opacity 0.8s ease;
+}
+.loader-icon {
+    font-size: 4rem;
+    animation: bounce-spin 2s infinite ease-in-out;
+}
+@keyframes bounce-spin {
+    0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+    50% { transform: translateY(-30px) rotate(180deg) scale(1.2); }
+}
+
+/* Custom Cursor */
+#custom-cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 24px; height: 24px;
+    background: rgba(244, 124, 150, 0.4);
+    border: 2px solid #F47C96;
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    transition: width 0.2s, height 0.2s, background 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+}
+#custom-cursor.hovering {
+    width: 50px; height: 50px;
+    background: rgba(123, 160, 91, 0.2);
+    border-color: #7BA05B;
+}
+#custom-cursor::after {
+    content: '🍓';
+    opacity: 1;
+    transition: opacity 0.2s;
+}
+#custom-cursor.hovering::after {
+    content: 'CLICK';
+    font-weight: bold;
+    color: #7BA05B;
+}
+
+/* Canvas Background */
+#garden-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Gradient Text */
+.text-gradient {
+    background: linear-gradient(135deg, #7BA05B, #F47C96, #D85C77);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s linear infinite;
+}
+@keyframes shine { to { background-position: 200% center; } }
+
+/* Glassmorphism */
+.glass-nav {
+    background: rgba(255, 253, 248, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(123, 160, 91, 0.15);
+}
+.card-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 35px rgba(107, 79, 79, 0.05), inset 0 0 0 1px rgba(255,255,255,0.5);
+    transform-style: preserve-3d;
+}
+.card-glass > * { transform: translateZ(30px); }
+
+/* Floating Steam */
+.steam {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: float-blob 10s ease-in-out infinite alternate;
+    z-index: -2;
+}
+.steam-1 { width: 400px; height: 400px; background: #BFD8B8; top: 10%; left: 5%; }
+.steam-2 { width: 350px; height: 350px; background: #F8BBD0; top: 50%; right: 5%; animation-delay: -5s; }
+@keyframes float-blob {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(50px, -50px) scale(1.2) rotate(20deg); }
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+.badge-matcha { background: linear-gradient(135deg, #EEF5E7, #e0eccf); color: #4E6B3F; border: 1px solid #7BA05B; }
+.badge-strawberry { background: linear-gradient(135deg, #FFF0F3, #ffe0e6); color: #D85C77; border: 1px solid #F47C96; }
+
+.btn-squish { transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1); }
+.btn-squish:active { transform: scale(0.92); }
+
+.project-img-wrapper { overflow: hidden; border-radius: 1.5rem; }
+.project-img { transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1); }
+.project-card:hover .project-img { transform: scale(1.1) rotate(2deg); }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .project-card { flex-direction: column; }
+    .project-img-wrapper { height: 18rem; }
+}
