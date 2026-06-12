@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio Profesional</title>
+    <title>Kenya Syalwa Arifia | Digital Garden</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -17,57 +17,92 @@
             theme: {
                 extend: {
                     colors: {
-                        dark: '#0f172a',
-                        darker: '#020617',
-                        primary: '#3b82f6',
-                        secondary: '#8b5cf6',
+                        cream: '#FFFDF8',
+                        matchaLight: '#EEF5E7',
+                        primary: '#7BA05B',
+                        secondary: '#F47C96',
+                        accent: '#D85C77',
+                        matcha: '#4E6B3F',
+                        choco: '#6B4F4F',
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Quicksand', 'sans-serif'],
+                        serif: ['Lora', 'serif'],
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Quicksand for playful/warm vibe, Lora for elegant touches) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom CSS -->
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a; /* Tailwind slate-900 */
-            color: #f8fafc; /* Tailwind slate-50 */
+            font-family: 'Quicksand', sans-serif;
+            background-color: #FFFDF8; /* Milk White / Cream */
+            color: #6B4F4F; /* Chocolate Accent */
+        }
+
+        h1, h2, h3, .logo-text {
+            font-family: 'Quicksand', sans-serif;
         }
 
         /* Gradien Text */
         .text-gradient {
-            background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899);
+            background: linear-gradient(to right, #7BA05B, #F47C96);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* Efek Glassmorphism */
+        /* Polkadot Strawberry Background */
+        .polkadot-bg {
+            background-color: #FFFDF8;
+            background-image: radial-gradient(rgba(244,124,150,.12) 2px, transparent 2px);
+            background-size: 40px 40px;
+        }
+
+        /* Efek Glassmorphism Terang */
         .glass {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 253, 248, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(123, 160, 91, 0.1);
         }
 
         .card-glass {
-            background: rgba(30, 41, 59, 0.5);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(123, 160, 91, 0.15);
+            box-shadow: 0 10px 30px rgba(107, 79, 79, 0.05);
+        }
+
+        /* Uap Matcha Mengambang */
+        .steam {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.35;
+            animation: float 8s ease-in-out infinite;
+            z-index: 0;
+        }
+        
+        .steam-1 { width: 300px; height: 300px; background: #BFD8B8; top: 15%; left: 10%; animation-delay: 0s; }
+        .steam-2 { width: 250px; height: 250px; background: #F8BBD0; top: 40%; right: 5%; animation-delay: 2s; }
+        .steam-3 { width: 200px; height: 200px; background: #EEF5E7; bottom: 10%; left: 30%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-30px) scale(1.05); }
         }
 
         /* Kursor Kedip untuk Typewriter */
         .cursor {
             display: inline-block;
             width: 3px;
-            background-color: #3b82f6;
+            background-color: #F47C96;
             animation: blink 1s infinite;
         }
 
@@ -79,7 +114,7 @@
         /* Animasi Reveal saat Scroll */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
+            transform: translateY(40px);
             transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
         }
 
@@ -88,34 +123,23 @@
             transform: translateY(0);
         }
 
-        /* Efek Hover Gambar Proyek */
-        .project-img-wrapper {
-            overflow: hidden;
-        }
-        .project-img {
-            transition: transform 0.5s ease;
-        }
-        .project-card:hover .project-img {
-            transform: scale(1.1);
-        }
+        /* Hover Proyek */
+        .project-img-wrapper { overflow: hidden; }
+        .project-img { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .project-card:hover .project-img { transform: scale(1.08); }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #020617; 
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155; 
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569; 
-        }
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #FFFDF8; }
+        ::-webkit-scrollbar-thumb { background: #7BA05B; border-radius: 5px; border: 2px solid #FFFDF8; }
+        ::-webkit-scrollbar-thumb:hover { background: #4E6B3F; }
+
+        /* Custom Badges */
+        .badge-matcha { background-color: #EEF5E7; color: #4E6B3F; border: 1px solid #7BA05B; }
+        .badge-strawberry { background-color: #FFF0F3; color: #D85C77; border: 1px solid #F47C96; }
     </style>
 </head>
-<body class="antialiased selection:bg-primary selection:text-white relative">
+<body class="antialiased selection:bg-secondary selection:text-white relative polkadot-bg">
 
     <!-- Navbar -->
     <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
@@ -123,23 +147,23 @@
             <div class="flex justify-between items-center h-20">
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="text-2xl font-bold tracking-tighter">
-                        Dev<span class="text-primary">.</span>Porto
+                    <a href="#" class="logo-text text-2xl font-bold tracking-tight text-matcha">
+                        kenya<span class="text-secondary">.studio</span>
                     </a>
                 </div>
                 
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#beranda" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Beranda</a>
-                    <a href="#tentang" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Tentang</a>
-                    <a href="#keahlian" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Keahlian</a>
-                    <a href="#portofolio" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Portofolio</a>
-                    <a href="#kontak" class="bg-primary hover:bg-blue-600 text-white px-5 py-2 rounded-full transition duration-300 text-sm font-medium shadow-lg shadow-blue-500/30">Hubungi Saya</a>
+                    <a href="#home" class="text-choco hover:text-primary transition duration-300 font-semibold">Home</a>
+                    <a href="#about" class="text-choco hover:text-primary transition duration-300 font-semibold">About</a>
+                    <a href="#skills" class="text-choco hover:text-primary transition duration-300 font-semibold">Garden</a>
+                    <a href="#portfolio" class="text-choco hover:text-primary transition duration-300 font-semibold">Projects</a>
+                    <a href="#contact" class="bg-primary hover:bg-matcha text-white px-6 py-2.5 rounded-full transition duration-300 font-semibold shadow-lg shadow-primary/30">Say Hello! 🌱</a>
                 </div>
 
                 <!-- Mobile Menu Button -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                    <button id="mobile-menu-btn" class="text-matcha focus:outline-none p-2">
                         <i class="fas fa-bars text-2xl"></i>
                     </button>
                 </div>
@@ -147,255 +171,298 @@
         </div>
 
         <!-- Mobile Menu Panel -->
-        <div id="mobile-menu" class="hidden md:hidden bg-darker border-b border-gray-800">
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-b border-matchaLight">
             <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="#beranda" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Beranda</a>
-                <a href="#tentang" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Tentang</a>
-                <a href="#keahlian" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Keahlian</a>
-                <a href="#portofolio" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Portofolio</a>
-                <a href="#kontak" class="block px-3 py-3 text-base font-medium text-primary hover:text-blue-400">Hubungi Saya</a>
+                <a href="#home" class="block px-3 py-3 font-semibold text-choco hover:text-primary hover:bg-matchaLight rounded-xl">Home</a>
+                <a href="#about" class="block px-3 py-3 font-semibold text-choco hover:text-primary hover:bg-matchaLight rounded-xl">About</a>
+                <a href="#skills" class="block px-3 py-3 font-semibold text-choco hover:text-primary hover:bg-matchaLight rounded-xl">Garden</a>
+                <a href="#portfolio" class="block px-3 py-3 font-semibold text-choco hover:text-primary hover:bg-matchaLight rounded-xl">Projects</a>
+                <a href="#contact" class="block px-3 py-3 font-semibold text-secondary hover:text-accent">Say Hello!</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="beranda" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
-        <!-- Background Ornaments -->
-        <div class="absolute top-1/4 left-10 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-pulse"></div>
-        <div class="absolute bottom-1/4 right-10 w-72 h-72 bg-secondary rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
+    <section id="home" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+        <!-- Matcha & Strawberry Steam Elements -->
+        <div class="steam steam-1"></div>
+        <div class="steam steam-2"></div>
+        <div class="steam steam-3"></div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-4 block reveal">Halo Dunia, Saya</span>
-            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 reveal" style="transition-delay: 100ms;">
-                John <span class="text-gradient">Doe</span>
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-4 block reveal bg-white/50 inline-block px-4 py-1 rounded-full border border-secondary/20">HELLO, I'M KENYA 🌱🍓</span>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-4 reveal text-matcha" style="transition-delay: 100ms;">
+                Kenya Syalwa <span class="text-gradient">Arifia</span>
             </h1>
-            <div class="text-xl md:text-3xl text-gray-400 mb-8 font-medium h-10 reveal" style="transition-delay: 200ms;">
-                Saya seorang <span id="typewriter" class="text-white"></span><span class="cursor">&nbsp;</span>
-            </div>
-            <p class="mt-4 max-w-2xl text-lg text-gray-400 mx-auto mb-10 reveal" style="transition-delay: 300ms;">
-                Saya mendesain dan membangun antarmuka web yang indah, fungsional, dan responsif. Mari wujudkan ide digital Anda menjadi kenyataan.
-            </p>
-            <div class="flex justify-center gap-4 reveal" style="transition-delay: 400ms;">
-                <a href="#portofolio" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-full transition duration-300 font-medium shadow-lg shadow-blue-500/30 flex items-center gap-2">
-                    Lihat Karya <i class="fas fa-arrow-down"></i>
-                </a>
-                <a href="https://github.com" target="_blank" class="bg-transparent border border-gray-600 hover:border-white text-white px-8 py-3 rounded-full transition duration-300 font-medium flex items-center gap-2">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Tentang Section -->
-    <section id="tentang" class="py-24 bg-darker relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                <div class="reveal">
-                    <div class="relative w-full max-w-md mx-auto md:mx-0">
-                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-2xl transform rotate-3 scale-105 opacity-50 blur-lg"></div>
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Foto Profil" class="relative rounded-2xl z-10 w-full h-auto object-cover border border-gray-700 shadow-2xl">
-                    </div>
-                </div>
-                <div class="reveal">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Tentang <span class="text-primary">Saya</span></h2>
-                    <p class="text-gray-400 mb-6 leading-relaxed">
-                        Saya adalah seorang Web Developer dengan pengalaman lebih dari 3 tahun dalam menciptakan pengalaman digital. Saya sangat menyukai pengembangan frontend dan UI/UX design. Fokus utama saya adalah menulis kode yang bersih, efisien, dan mudah dipelihara.
-                    </p>
-                    <p class="text-gray-400 mb-8 leading-relaxed">
-                        Di luar coding, saya suka membaca buku tentang teknologi terbaru, bermain game strategi, dan berkontribusi pada proyek open-source komunitas.
-                    </p>
-                    
-                    <div class="grid grid-cols-2 gap-6">
-                        <div>
-                            <h4 class="text-4xl font-bold text-white mb-2">3+</h4>
-                            <p class="text-gray-500 text-sm">Tahun Pengalaman</p>
-                        </div>
-                        <div>
-                            <h4 class="text-4xl font-bold text-white mb-2">50+</h4>
-                            <p class="text-gray-500 text-sm">Proyek Selesai</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Keahlian Section -->
-    <section id="keahlian" class="py-24 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 reveal">
-                <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Apa yang saya lakukan</span>
-                <h2 class="text-3xl md:text-4xl font-bold">Keahlian & <span class="text-gradient">Teknologi</span></h2>
+            
+            <div class="text-2xl md:text-4xl text-choco mb-8 font-semibold h-12 reveal" style="transition-delay: 200ms;">
+                <span id="typewriter" class="text-matcha"></span><span class="cursor">&nbsp;</span>
             </div>
             
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300">
-                    <i class="fab fa-html5 text-5xl text-orange-500 mb-4"></i>
-                    <h3 class="font-semibold text-lg">HTML5</h3>
+            <p class="mt-4 text-lg md:text-xl text-choco/80 mx-auto mb-10 reveal max-w-3xl leading-relaxed" style="transition-delay: 300ms;">
+                I enjoy exploring the intersection of technology, creativity, and human experiences. From building games and dashboards to crafting digital stories, I love turning ideas into solutions that matter.
+            </p>
+            
+            <div class="flex justify-center gap-4 reveal" style="transition-delay: 400ms;">
+                <a href="#portfolio" class="bg-primary hover:bg-matcha text-white px-8 py-3.5 rounded-full transition duration-300 font-bold shadow-xl shadow-primary/30 flex items-center gap-2">
+                    Explore My Garden <i class="fas fa-leaf"></i>
+                </a>
+                <a href="#contact" class="bg-white border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-8 py-3.5 rounded-full transition duration-300 font-bold flex items-center gap-2 shadow-lg shadow-secondary/10">
+                    Let's Connect <i class="fas fa-mug-hot"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-matchaLight relative border-y border-primary/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="reveal relative">
+                    <!-- Decor Behind Image -->
+                    <div class="absolute inset-0 bg-gradient-to-tr from-secondary to-primary rounded-[2rem] transform -rotate-3 scale-105 opacity-20 blur-md"></div>
+                    <!-- Add your real photo URL below later -->
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Kenya at work" class="relative rounded-[2rem] z-10 w-full h-auto object-cover border-4 border-white shadow-xl">
+                    <div class="absolute -bottom-6 -right-6 bg-white p-4 rounded-full shadow-lg z-20 animate-bounce">
+                        <span class="text-4xl">🍵</span>
+                    </div>
                 </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 100ms;">
-                    <i class="fab fa-css3-alt text-5xl text-blue-500 mb-4"></i>
-                    <h3 class="font-semibold text-lg">CSS3 / Tailwind</h3>
-                </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 200ms;">
-                    <i class="fab fa-js text-5xl text-yellow-400 mb-4"></i>
-                    <h3 class="font-semibold text-lg">JavaScript</h3>
-                </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 300ms;">
-                    <i class="fab fa-react text-5xl text-cyan-400 mb-4"></i>
-                    <h3 class="font-semibold text-lg">React.js</h3>
-                </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 400ms;">
-                    <i class="fab fa-node-js text-5xl text-green-500 mb-4"></i>
-                    <h3 class="font-semibold text-lg">Node.js</h3>
-                </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 500ms;">
-                    <i class="fas fa-database text-5xl text-blue-300 mb-4"></i>
-                    <h3 class="font-semibold text-lg">SQL / NoSQL</h3>
-                </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 600ms;">
-                    <i class="fab fa-git-alt text-5xl text-red-500 mb-4"></i>
-                    <h3 class="font-semibold text-lg">Git & GitHub</h3>
-                </div>
-                <!-- Skill Item -->
-                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 700ms;">
-                    <i class="fab fa-figma text-5xl text-purple-400 mb-4"></i>
-                    <h3 class="font-semibold text-lg">UI/UX Design</h3>
+                
+                <div class="reveal">
+                    <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-2 block">My Story</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6 text-matcha">Curious & <span class="text-gradient">Driven</span></h2>
+                    
+                    <p class="text-choco/90 mb-6 leading-relaxed text-lg">
+                        I'm an Informatics student who enjoys learning across disciplines. My experiences range from game development and data analytics to digital communication. 
+                    </p>
+                    <p class="text-choco/90 mb-8 leading-relaxed text-lg">
+                        I thrive when solving problems creatively and continuously challenging myself to build meaningful experiences through technology. I believe the best digital products are born from a mix of solid logic and deep empathy.
+                    </p>
+                    
+                    <div class="grid grid-cols-3 gap-6 bg-white p-6 rounded-2xl shadow-sm border border-primary/10">
+                        <div class="text-center border-r border-matchaLight">
+                            <h4 class="text-3xl font-bold text-primary mb-1">4+</h4>
+                            <p class="text-choco text-sm font-semibold">Projects</p>
+                        </div>
+                        <div class="text-center border-r border-matchaLight">
+                            <h4 class="text-3xl font-bold text-secondary mb-1">3+</h4>
+                            <p class="text-choco text-sm font-semibold">Fields Explored</p>
+                        </div>
+                        <div class="text-center">
+                            <h4 class="text-3xl font-bold text-accent mb-1">∞</h4>
+                            <p class="text-choco text-sm font-semibold">Curiosity</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Portofolio Section -->
-    <section id="portofolio" class="py-24 bg-darker">
+    <!-- Skills / Garden Section -->
+    <section id="skills" class="py-24 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 reveal">
-                <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Karya Terbaik</span>
-                <h2 class="text-3xl md:text-4xl font-bold">Portofolio <span class="text-gradient">Terbaru</span></h2>
+                <span class="text-primary font-bold tracking-widest uppercase text-sm mb-2 block">What's Growing in</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-matcha">My Digital <span class="text-gradient">Garden</span></h2>
+                <p class="mt-4 text-choco/80 max-w-2xl mx-auto">A multidisciplinary collection of tools, technologies, and skills I cultivate every day.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Development -->
+                <div class="card-glass p-8 rounded-3xl reveal hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-14 h-14 bg-matchaLight rounded-2xl flex items-center justify-center text-primary text-3xl mb-6 shadow-sm">🌱</div>
+                    <h3 class="font-bold text-xl text-matcha mb-4">Development</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-primary text-sm mr-3"></i> Unity</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-primary text-sm mr-3"></i> C#</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-primary text-sm mr-3"></i> PHP</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-primary text-sm mr-3"></i> SQL</li>
+                    </ul>
+                </div>
+
+                <!-- Data -->
+                <div class="card-glass p-8 rounded-3xl reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 100ms;">
+                    <div class="w-14 h-14 bg-red-50 rounded-2xl flex items-center justify-center text-secondary text-3xl mb-6 shadow-sm">🍓</div>
+                    <h3 class="font-bold text-xl text-matcha mb-4">Data</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-secondary text-sm mr-3"></i> Pentaho</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-secondary text-sm mr-3"></i> Metabase</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-secondary text-sm mr-3"></i> ETL</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-secondary text-sm mr-3"></i> Data Warehouse</li>
+                    </ul>
+                </div>
+
+                <!-- Creativity -->
+                <div class="card-glass p-8 rounded-3xl reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 200ms;">
+                    <div class="w-14 h-14 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-400 text-3xl mb-6 shadow-sm">☁️</div>
+                    <h3 class="font-bold text-xl text-matcha mb-4">Creativity</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-blue-400 text-sm mr-3"></i> Canva</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-blue-400 text-sm mr-3"></i> Content Creation</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-blue-400 text-sm mr-3"></i> Storytelling</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-blue-400 text-sm mr-3"></i> UI/UX</li>
+                    </ul>
+                </div>
+
+                <!-- Collaboration -->
+                <div class="card-glass p-8 rounded-3xl reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 300ms;">
+                    <div class="w-14 h-14 bg-yellow-50 rounded-2xl flex items-center justify-center text-yellow-500 text-3xl mb-6 shadow-sm">✨</div>
+                    <h3 class="font-bold text-xl text-matcha mb-4">Collaboration</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-yellow-500 text-sm mr-3"></i> Teamwork</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-yellow-500 text-sm mr-3"></i> Communication</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-yellow-500 text-sm mr-3"></i> Leadership</li>
+                        <li class="flex items-center text-choco font-medium"><i class="fas fa-check text-yellow-500 text-sm mr-3"></i> Presentation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24 bg-matchaLight border-y border-primary/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-secondary font-bold tracking-widest uppercase text-sm mb-2 block">Selected Works</span>
+                <h2 class="text-4xl md:text-5xl font-bold text-matcha">My <span class="text-gradient">Projects</span></h2>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Project 1 -->
-                <div class="project-card card-glass rounded-2xl overflow-hidden reveal group">
-                    <div class="project-img-wrapper h-60 relative">
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Proyek 1" class="project-img w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <!-- Project 1: Game -->
+                <div class="project-card card-glass rounded-3xl overflow-hidden reveal group lg:col-span-2 flex flex-col md:flex-row">
+                    <div class="project-img-wrapper md:w-1/2 relative h-64 md:h-auto">
+                        <img src="https://images.unsplash.com/photo-1518998053401-878c7356c282?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Museum at The Museum" class="project-img w-full h-full object-cover">
                     </div>
-                    <div class="p-6">
-                        <div class="flex gap-2 mb-3">
-                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">React</span>
-                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">Tailwind</span>
+                    <div class="p-8 md:w-1/2 flex flex-col justify-center bg-white/50">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge-matcha text-xs font-bold px-3 py-1 rounded-full"><i class="fas fa-gamepad mr-1"></i> Unity</span>
+                            <span class="badge-strawberry text-xs font-bold px-3 py-1 rounded-full">🍓 Team Project</span>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">E-Commerce Dashboard</h3>
-                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">Panel admin komprehensif untuk toko online dengan visualisasi data real-time, manajemen produk, dan pelacakan pesanan pengguna.</p>
-                        <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-primary transition-colors">
-                            Lihat Detail <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        <h3 class="text-2xl font-bold mb-3 text-matcha group-hover:text-primary transition-colors">Museum at The Museum</h3>
+                        <p class="text-choco/80 font-medium mb-6 line-clamp-4">An interactive simulation game built in Unity. This project challenged me to blend programming logic with engaging storytelling and user experience, creating an immersive digital museum environment.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-bold text-secondary hover:text-accent transition-colors mt-auto">
+                            View Details <i class="fas fa-arrow-right ml-2 text-xs"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Project 2 -->
-                <div class="project-card card-glass rounded-2xl overflow-hidden reveal group" style="transition-delay: 100ms;">
-                    <div class="project-img-wrapper h-60 relative">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Proyek 2" class="project-img w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <!-- Project 2: Data -->
+                <div class="project-card card-glass rounded-3xl overflow-hidden reveal group" style="transition-delay: 100ms;">
+                    <div class="project-img-wrapper h-56 relative">
+                        <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Spotify Insight" class="project-img w-full h-full object-cover">
                     </div>
-                    <div class="p-6">
-                        <div class="flex gap-2 mb-3">
-                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">HTML/CSS</span>
-                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">JS</span>
+                    <div class="p-6 bg-white/50 h-full">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge-matcha text-xs font-bold px-3 py-1 rounded-full">Pentaho & Metabase</span>
+                            <span class="badge-matcha text-xs font-bold px-3 py-1 rounded-full bg-blue-50 text-blue-600 border-blue-200">🌱 Solo Project</span>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Website Agensi Kreatif</h3>
-                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">Company profile yang responsif dan elegan untuk sebuah agensi desain grafis, menampilkan portofolio dan layanan mereka dengan animasi mulus.</p>
-                        <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-primary transition-colors">
-                            Lihat Detail <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        <h3 class="text-xl font-bold mb-2 text-matcha group-hover:text-primary transition-colors">Spotify Insight</h3>
+                        <p class="text-choco/80 text-sm mb-4 font-medium line-clamp-3">Designed a Data Warehouse and crafted an interactive dashboard to extract actionable insights from Spotify datasets.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-bold text-secondary hover:text-accent transition-colors">
+                            View Details <i class="fas fa-arrow-right ml-2 text-xs"></i>
                         </a>
                     </div>
                 </div>
 
-                <!-- Project 3 -->
-                <div class="project-card card-glass rounded-2xl overflow-hidden reveal group" style="transition-delay: 200ms;">
-                    <div class="project-img-wrapper h-60 relative">
-                        <img src="https://images.unsplash.com/photo-1618761714954-0b8cd0026356?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Proyek 3" class="project-img w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <!-- Project 3: Storytelling -->
+                <div class="project-card card-glass rounded-3xl overflow-hidden reveal group">
+                    <div class="project-img-wrapper h-56 relative">
+                        <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="KKN Digital Storytelling" class="project-img w-full h-full object-cover">
                     </div>
-                    <div class="p-6">
-                        <div class="flex gap-2 mb-3">
-                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">Vue.js</span>
-                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">Firebase</span>
+                    <div class="p-6 bg-white/50 h-full">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge-matcha text-xs font-bold px-3 py-1 rounded-full">Content Creation</span>
+                            <span class="badge-strawberry text-xs font-bold px-3 py-1 rounded-full bg-yellow-50 text-yellow-600 border-yellow-200">✨ Community Impact</span>
                         </div>
-                        <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Aplikasi Manajemen Tugas</h3>
-                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">Aplikasi web produktivitas yang memungkinkan pengguna untuk mengatur tugas, berkolaborasi dengan tim, dan melacak kemajuan harian.</p>
-                        <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-primary transition-colors">
-                            Lihat Detail <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        <h3 class="text-xl font-bold mb-2 text-matcha group-hover:text-primary transition-colors">KKN Digital Storytelling</h3>
+                        <p class="text-choco/80 text-sm mb-4 font-medium line-clamp-3">Led Instagram communications during community service, translating village potentials into compelling digital narratives.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-bold text-secondary hover:text-accent transition-colors">
+                            View Details <i class="fas fa-arrow-right ml-2 text-xs"></i>
                         </a>
                     </div>
                 </div>
-            </div>
-            
-            <div class="mt-12 text-center reveal">
-                <a href="#" class="inline-block border border-gray-600 hover:border-primary hover:text-primary text-gray-300 px-6 py-3 rounded-full transition duration-300 font-medium">
-                    Lihat Lebih Banyak di GitHub
-                </a>
+
+                <!-- Project 4: Web App -->
+                <div class="project-card card-glass rounded-3xl overflow-hidden reveal group" style="transition-delay: 100ms;">
+                    <div class="project-img-wrapper h-56 relative">
+                        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Shopping List App" class="project-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 bg-white/50 h-full">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge-matcha text-xs font-bold px-3 py-1 rounded-full">PHP & SQL</span>
+                            <span class="badge-strawberry text-xs font-bold px-3 py-1 rounded-full bg-purple-50 text-purple-600 border-purple-200">☁️ Learning Project</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-matcha group-hover:text-primary transition-colors">Shopping List Web App</h3>
+                        <p class="text-choco/80 text-sm mb-4 font-medium line-clamp-3">Developed a fundamental CRUD web application using PHP to manage daily groceries. A stepping stone in my web dev journey.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-bold text-secondary hover:text-accent transition-colors">
+                            View Details <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 5: Analysis -->
+                <div class="project-card card-glass rounded-3xl overflow-hidden reveal group" style="transition-delay: 200ms;">
+                    <div class="project-img-wrapper h-56 relative">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="SAP Case Study" class="project-img w-full h-full object-cover">
+                    </div>
+                    <div class="p-6 bg-white/50 h-full">
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="badge-matcha text-xs font-bold px-3 py-1 rounded-full">SAP / ERP</span>
+                            <span class="badge-strawberry text-xs font-bold px-3 py-1 rounded-full">🍓 Team Project</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 text-matcha group-hover:text-primary transition-colors">SAP/ERP Case Study</h3>
+                        <p class="text-choco/80 text-sm mb-4 font-medium line-clamp-3">Analyzed complex business processes and evaluated ERP implementations to improve organizational efficiency.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-bold text-secondary hover:text-accent transition-colors">
+                            View Details <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
 
-    <!-- Kontak Section -->
-    <section id="kontak" class="py-24 relative">
-        <!-- Background Ornaments -->
-        <div class="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
-
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="max-w-3xl mx-auto card-glass p-8 md:p-12 rounded-3xl reveal">
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="card-glass p-8 md:p-14 rounded-[3rem] reveal bg-white/90">
                 <div class="text-center mb-10">
-                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Mari <span class="text-primary">Bekerja Sama</span></h2>
-                    <p class="text-gray-400">Punya proyek yang ingin dikerjakan? Atau sekadar ingin menyapa? Jangan ragu untuk menghubungi saya!</p>
+                    <span class="text-primary font-bold tracking-widest uppercase text-sm mb-2 block">Reach Out</span>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4 text-matcha">Let's Create <span class="text-gradient">Together</span></h2>
+                    <p class="text-choco/80 font-medium text-lg">Whether you have an idea, an opportunity, or just want to chat about tech & design, my inbox is always open!</p>
                 </div>
                 
-                <form id="contact-form" onsubmit="event.preventDefault(); alert('Pesan berhasil disimulasikan terkirim!');">
+                <form id="contact-form" onsubmit="event.preventDefault(); alert('Message successfully sent! (Simulation)');">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                         <div>
-                            <label class="block text-sm font-medium text-gray-400 mb-2">Nama Lengkap</label>
-                            <input type="text" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Masukkan nama Anda" required>
+                            <label class="block text-sm font-bold text-matcha mb-2">Name</label>
+                            <input type="text" class="w-full bg-cream border border-primary/20 rounded-xl px-5 py-3.5 text-choco focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="Jane Doe" required>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
-                            <input type="email" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="email@anda.com" required>
+                            <label class="block text-sm font-bold text-matcha mb-2">Email</label>
+                            <input type="email" class="w-full bg-cream border border-primary/20 rounded-xl px-5 py-3.5 text-choco focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-medium" placeholder="jane@example.com" required>
                         </div>
                     </div>
                     <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-400 mb-2">Subjek</label>
-                        <input type="text" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Apa yang ingin dibicarakan?">
+                        <label class="block text-sm font-bold text-matcha mb-2">Message</label>
+                        <textarea rows="4" class="w-full bg-cream border border-primary/20 rounded-xl px-5 py-3.5 text-choco focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all font-medium resize-none" placeholder="Write your message here..." required></textarea>
                     </div>
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-400 mb-2">Pesan</label>
-                        <textarea rows="4" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Tulis pesan Anda di sini..." required></textarea>
-                    </div>
-                    <button type="submit" class="w-full bg-primary hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition duration-300 shadow-lg shadow-blue-500/20 flex justify-center items-center gap-2">
-                        Kirim Pesan <i class="fas fa-paper-plane"></i>
+                    <button type="submit" class="w-full bg-secondary hover:bg-accent text-white font-bold py-4 rounded-xl transition duration-300 shadow-xl shadow-secondary/20 flex justify-center items-center gap-2 text-lg">
+                        Send Message <i class="fas fa-paper-plane"></i>
                     </button>
                 </form>
                 
-                <div class="mt-10 flex justify-center gap-6 pt-8 border-t border-gray-800">
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
-                        <i class="fab fa-linkedin-in"></i>
+                <div class="mt-12 flex justify-center gap-6 pt-8 border-t border-primary/10">
+                    <a href="#" class="w-12 h-12 rounded-full bg-matchaLight flex items-center justify-center text-matcha hover:bg-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <i class="fab fa-linkedin-in text-xl"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
-                        <i class="fab fa-github"></i>
+                    <a href="#" class="w-12 h-12 rounded-full bg-matchaLight flex items-center justify-center text-matcha hover:bg-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <i class="fab fa-github text-xl"></i>
                     </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
-                        <i class="fab fa-instagram"></i>
+                    <a href="#" class="w-12 h-12 rounded-full bg-matchaLight flex items-center justify-center text-matcha hover:bg-primary hover:text-white transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <i class="fab fa-instagram text-xl"></i>
                     </a>
                 </div>
             </div>
@@ -403,20 +470,21 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-darker border-t border-gray-800 py-8 text-center">
+    <footer class="bg-matchaLight border-t border-primary/20 py-10 text-center">
         <div class="max-w-7xl mx-auto px-4">
-            <p class="text-gray-500 text-sm">
-                &copy; <span id="year"></span> Dev.Porto. Dibuat dengan <i class="fas fa-heart text-red-500 mx-1"></i> menggunakan HTML, Tailwind & JS.
+            <h3 class="font-bold text-matcha text-xl mb-3">kenya<span class="text-secondary">.studio</span></h3>
+            <p class="text-choco/70 font-medium">
+                Crafted with curiosity, matcha, and countless learning moments. <br class="md:hidden"> &copy; <span id="year"></span> Kenya Syalwa Arifia.
             </p>
         </div>
     </footer>
 
     <!-- JavaScript Interaktif -->
     <script>
-        // Update Tahun Footer Otomatis
+        // Update Tahun Footer
         document.getElementById('year').textContent = new Date().getFullYear();
 
-        // 1. Mobile Menu Toggle
+        // Mobile Menu Toggle
         const btn = document.getElementById('mobile-menu-btn');
         const menu = document.getElementById('mobile-menu');
 
@@ -424,28 +492,31 @@
             menu.classList.toggle('hidden');
         });
 
-        // Tutup mobile menu ketika link diklik
         menu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
             });
         });
 
-        // 2. Efek Typewriter (Mengetik)
-        const texts = ["Web Developer", "UI/UX Enthusiast", "Frontend Engineer"];
+        // Efek Typewriter Baru
+        const texts = [
+            "Problem Solver",
+            "Game Developer",
+            "Data Enthusiast",
+            "Creative Storyteller",
+            "Aspiring Apple Developer"
+        ];
         let count = 0;
         let index = 0;
         let currentText = '';
         let letter = '';
         let isDeleting = false;
-        const typeSpeed = 100;
-        const deleteSpeed = 50;
-        const delayBetween = 2000;
+        const typeSpeed = 80;
+        const deleteSpeed = 40;
+        const delayBetween = 2500;
 
         function type() {
-            if (count === texts.length) {
-                count = 0;
-            }
+            if (count === texts.length) { count = 0; }
             currentText = texts[count];
 
             if (isDeleting) {
@@ -470,16 +541,15 @@
             setTimeout(type, typeTimeout);
         }
         
-        // Memulai efek mengetik
         setTimeout(type, 1000);
 
-        // 3. Animasi Reveal saat Scroll (Intersection Observer)
+        // Animasi Reveal saat Scroll
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100; // Jarak dari bawah layar sebelum animasi dimulai
+                var elementVisible = 120;
 
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
@@ -487,19 +557,18 @@
             }
         }
         
-        // Cek animasi saat halaman dimuat dan di-scroll
         window.addEventListener("scroll", reveal);
-        reveal(); // Panggil sekali saat load
+        reveal();
 
-        // 4. Efek Navbar Glass saat Scroll
+        // Efek Navbar Glass saat Scroll (Disesuaikan untuk Light Theme)
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
-                navbar.classList.add('shadow-lg');
-                navbar.style.background = 'rgba(15, 23, 42, 0.85)';
+                navbar.classList.add('shadow-md');
+                navbar.style.background = 'rgba(255, 253, 248, 0.95)';
             } else {
-                navbar.classList.remove('shadow-lg');
-                navbar.style.background = 'rgba(15, 23, 42, 0.5)';
+                navbar.classList.remove('shadow-md');
+                navbar.style.background = 'rgba(255, 253, 248, 0.85)';
             }
         });
     </script>
