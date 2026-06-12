@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portofolio Profesional</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Konfigurasi Tailwind Custom -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: '#0f172a',
+                        darker: '#020617',
+                        primary: '#3b82f6',
+                        secondary: '#8b5cf6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Tailwind slate-900 */
+            color: #f8fafc; /* Tailwind slate-50 */
+        }
+
+        /* Gradien Text */
+        .text-gradient {
+            background: linear-gradient(to right, #3b82f6, #8b5cf6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Efek Glassmorphism */
+        .glass {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .card-glass {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Kursor Kedip untuk Typewriter */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #3b82f6;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Animasi Reveal saat Scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Efek Hover Gambar Proyek */
+        .project-img-wrapper {
+            overflow: hidden;
+        }
+        .project-img {
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover .project-img {
+            transform: scale(1.1);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #020617; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569; 
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary selection:text-white relative">
+
+    <!-- Navbar -->
+    <nav class="fixed w-full z-50 glass transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <a href="#" class="text-2xl font-bold tracking-tighter">
+                        Dev<span class="text-primary">.</span>Porto
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#beranda" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Beranda</a>
+                    <a href="#tentang" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Tentang</a>
+                    <a href="#keahlian" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Keahlian</a>
+                    <a href="#portofolio" class="text-gray-300 hover:text-white transition duration-300 text-sm font-medium">Portofolio</a>
+                    <a href="#kontak" class="bg-primary hover:bg-blue-600 text-white px-5 py-2 rounded-full transition duration-300 text-sm font-medium shadow-lg shadow-blue-500/30">Hubungi Saya</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-darker border-b border-gray-800">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#beranda" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Beranda</a>
+                <a href="#tentang" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Tentang</a>
+                <a href="#keahlian" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Keahlian</a>
+                <a href="#portofolio" class="block px-3 py-3 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 rounded-md">Portofolio</a>
+                <a href="#kontak" class="block px-3 py-3 text-base font-medium text-primary hover:text-blue-400">Hubungi Saya</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
+        <!-- Background Ornaments -->
+        <div class="absolute top-1/4 left-10 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-pulse"></div>
+        <div class="absolute bottom-1/4 right-10 w-72 h-72 bg-secondary rounded-full mix-blend-multiply filter blur-[128px] opacity-30 animate-pulse" style="animation-delay: 2s;"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-4 block reveal">Halo Dunia, Saya</span>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 reveal" style="transition-delay: 100ms;">
+                John <span class="text-gradient">Doe</span>
+            </h1>
+            <div class="text-xl md:text-3xl text-gray-400 mb-8 font-medium h-10 reveal" style="transition-delay: 200ms;">
+                Saya seorang <span id="typewriter" class="text-white"></span><span class="cursor">&nbsp;</span>
+            </div>
+            <p class="mt-4 max-w-2xl text-lg text-gray-400 mx-auto mb-10 reveal" style="transition-delay: 300ms;">
+                Saya mendesain dan membangun antarmuka web yang indah, fungsional, dan responsif. Mari wujudkan ide digital Anda menjadi kenyataan.
+            </p>
+            <div class="flex justify-center gap-4 reveal" style="transition-delay: 400ms;">
+                <a href="#portofolio" class="bg-primary hover:bg-blue-600 text-white px-8 py-3 rounded-full transition duration-300 font-medium shadow-lg shadow-blue-500/30 flex items-center gap-2">
+                    Lihat Karya <i class="fas fa-arrow-down"></i>
+                </a>
+                <a href="https://github.com" target="_blank" class="bg-transparent border border-gray-600 hover:border-white text-white px-8 py-3 rounded-full transition duration-300 font-medium flex items-center gap-2">
+                    <i class="fab fa-github"></i> GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Section -->
+    <section id="tentang" class="py-24 bg-darker relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <div class="relative w-full max-w-md mx-auto md:mx-0">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-2xl transform rotate-3 scale-105 opacity-50 blur-lg"></div>
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Foto Profil" class="relative rounded-2xl z-10 w-full h-auto object-cover border border-gray-700 shadow-2xl">
+                    </div>
+                </div>
+                <div class="reveal">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Tentang <span class="text-primary">Saya</span></h2>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Saya adalah seorang Web Developer dengan pengalaman lebih dari 3 tahun dalam menciptakan pengalaman digital. Saya sangat menyukai pengembangan frontend dan UI/UX design. Fokus utama saya adalah menulis kode yang bersih, efisien, dan mudah dipelihara.
+                    </p>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        Di luar coding, saya suka membaca buku tentang teknologi terbaru, bermain game strategi, dan berkontribusi pada proyek open-source komunitas.
+                    </p>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="text-4xl font-bold text-white mb-2">3+</h4>
+                            <p class="text-gray-500 text-sm">Tahun Pengalaman</p>
+                        </div>
+                        <div>
+                            <h4 class="text-4xl font-bold text-white mb-2">50+</h4>
+                            <p class="text-gray-500 text-sm">Proyek Selesai</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Keahlian Section -->
+    <section id="keahlian" class="py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Apa yang saya lakukan</span>
+                <h2 class="text-3xl md:text-4xl font-bold">Keahlian & <span class="text-gradient">Teknologi</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300">
+                    <i class="fab fa-html5 text-5xl text-orange-500 mb-4"></i>
+                    <h3 class="font-semibold text-lg">HTML5</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 100ms;">
+                    <i class="fab fa-css3-alt text-5xl text-blue-500 mb-4"></i>
+                    <h3 class="font-semibold text-lg">CSS3 / Tailwind</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 200ms;">
+                    <i class="fab fa-js text-5xl text-yellow-400 mb-4"></i>
+                    <h3 class="font-semibold text-lg">JavaScript</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 300ms;">
+                    <i class="fab fa-react text-5xl text-cyan-400 mb-4"></i>
+                    <h3 class="font-semibold text-lg">React.js</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 400ms;">
+                    <i class="fab fa-node-js text-5xl text-green-500 mb-4"></i>
+                    <h3 class="font-semibold text-lg">Node.js</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 500ms;">
+                    <i class="fas fa-database text-5xl text-blue-300 mb-4"></i>
+                    <h3 class="font-semibold text-lg">SQL / NoSQL</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 600ms;">
+                    <i class="fab fa-git-alt text-5xl text-red-500 mb-4"></i>
+                    <h3 class="font-semibold text-lg">Git & GitHub</h3>
+                </div>
+                <!-- Skill Item -->
+                <div class="card-glass p-6 rounded-xl text-center reveal hover:-translate-y-2 transition-transform duration-300" style="transition-delay: 700ms;">
+                    <i class="fab fa-figma text-5xl text-purple-400 mb-4"></i>
+                    <h3 class="font-semibold text-lg">UI/UX Design</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portofolio Section -->
+    <section id="portofolio" class="py-24 bg-darker">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 reveal">
+                <span class="text-primary font-semibold tracking-wider uppercase text-sm mb-2 block">Karya Terbaik</span>
+                <h2 class="text-3xl md:text-4xl font-bold">Portofolio <span class="text-gradient">Terbaru</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card card-glass rounded-2xl overflow-hidden reveal group">
+                    <div class="project-img-wrapper h-60 relative">
+                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Proyek 1" class="project-img w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">React</span>
+                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">Tailwind</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">E-Commerce Dashboard</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">Panel admin komprehensif untuk toko online dengan visualisasi data real-time, manajemen produk, dan pelacakan pesanan pengguna.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-primary transition-colors">
+                            Lihat Detail <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card card-glass rounded-2xl overflow-hidden reveal group" style="transition-delay: 100ms;">
+                    <div class="project-img-wrapper h-60 relative">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Proyek 2" class="project-img w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">HTML/CSS</span>
+                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">JS</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Website Agensi Kreatif</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">Company profile yang responsif dan elegan untuk sebuah agensi desain grafis, menampilkan portofolio dan layanan mereka dengan animasi mulus.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-primary transition-colors">
+                            Lihat Detail <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card card-glass rounded-2xl overflow-hidden reveal group" style="transition-delay: 200ms;">
+                    <div class="project-img-wrapper h-60 relative">
+                        <img src="https://images.unsplash.com/photo-1618761714954-0b8cd0026356?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Proyek 3" class="project-img w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex gap-2 mb-3">
+                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">Vue.js</span>
+                            <span class="text-xs font-semibold bg-gray-800 text-primary px-3 py-1 rounded-full">Firebase</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2 group-hover:text-primary transition-colors">Aplikasi Manajemen Tugas</h3>
+                        <p class="text-gray-400 text-sm mb-4 line-clamp-3">Aplikasi web produktivitas yang memungkinkan pengguna untuk mengatur tugas, berkolaborasi dengan tim, dan melacak kemajuan harian.</p>
+                        <a href="#" class="inline-flex items-center text-sm font-medium text-white hover:text-primary transition-colors">
+                            Lihat Detail <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center reveal">
+                <a href="#" class="inline-block border border-gray-600 hover:border-primary hover:text-primary text-gray-300 px-6 py-3 rounded-full transition duration-300 font-medium">
+                    Lihat Lebih Banyak di GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontak Section -->
+    <section id="kontak" class="py-24 relative">
+        <!-- Background Ornaments -->
+        <div class="absolute top-0 right-0 w-96 h-96 bg-primary rounded-full mix-blend-multiply filter blur-[128px] opacity-10"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl mx-auto card-glass p-8 md:p-12 rounded-3xl reveal">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-4">Mari <span class="text-primary">Bekerja Sama</span></h2>
+                    <p class="text-gray-400">Punya proyek yang ingin dikerjakan? Atau sekadar ingin menyapa? Jangan ragu untuk menghubungi saya!</p>
+                </div>
+                
+                <form id="contact-form" onsubmit="event.preventDefault(); alert('Pesan berhasil disimulasikan terkirim!');">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Nama Lengkap</label>
+                            <input type="text" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Masukkan nama Anda" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                            <input type="email" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="email@anda.com" required>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Subjek</label>
+                        <input type="text" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Apa yang ingin dibicarakan?">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-400 mb-2">Pesan</label>
+                        <textarea rows="4" class="w-full bg-gray-800/50 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors" placeholder="Tulis pesan Anda di sini..." required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary hover:bg-blue-600 text-white font-medium py-3 rounded-lg transition duration-300 shadow-lg shadow-blue-500/20 flex justify-center items-center gap-2">
+                        Kirim Pesan <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+                
+                <div class="mt-10 flex justify-center gap-6 pt-8 border-t border-gray-800">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-primary hover:text-white transition-all duration-300">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-darker border-t border-gray-800 py-8 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-gray-500 text-sm">
+                &copy; <span id="year"></span> Dev.Porto. Dibuat dengan <i class="fas fa-heart text-red-500 mx-1"></i> menggunakan HTML, Tailwind & JS.
+            </p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Interaktif -->
+    <script>
+        // Update Tahun Footer Otomatis
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // 1. Mobile Menu Toggle
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('hidden');
+        });
+
+        // Tutup mobile menu ketika link diklik
+        menu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+
+        // 2. Efek Typewriter (Mengetik)
+        const texts = ["Web Developer", "UI/UX Enthusiast", "Frontend Engineer"];
+        let count = 0;
+        let index = 0;
+        let currentText = '';
+        let letter = '';
+        let isDeleting = false;
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const delayBetween = 2000;
+
+        function type() {
+            if (count === texts.length) {
+                count = 0;
+            }
+            currentText = texts[count];
+
+            if (isDeleting) {
+                letter = currentText.slice(0, --index);
+            } else {
+                letter = currentText.slice(0, ++index);
+            }
+
+            document.getElementById('typewriter').textContent = letter;
+
+            let typeTimeout = isDeleting ? deleteSpeed : typeSpeed;
+
+            if (!isDeleting && letter.length === currentText.length) {
+                typeTimeout = delayBetween;
+                isDeleting = true;
+            } else if (isDeleting && letter.length === 0) {
+                isDeleting = false;
+                count++;
+                typeTimeout = 500;
+            }
+
+            setTimeout(type, typeTimeout);
+        }
+        
+        // Memulai efek mengetik
+        setTimeout(type, 1000);
+
+        // 3. Animasi Reveal saat Scroll (Intersection Observer)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100; // Jarak dari bawah layar sebelum animasi dimulai
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        
+        // Cek animasi saat halaman dimuat dan di-scroll
+        window.addEventListener("scroll", reveal);
+        reveal(); // Panggil sekali saat load
+
+        // 4. Efek Navbar Glass saat Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-lg');
+                navbar.style.background = 'rgba(15, 23, 42, 0.85)';
+            } else {
+                navbar.classList.remove('shadow-lg');
+                navbar.style.background = 'rgba(15, 23, 42, 0.5)';
+            }
+        });
+    </script>
+</body>
+</html>
