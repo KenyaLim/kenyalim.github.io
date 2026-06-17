@@ -144,6 +144,54 @@
             transform: translateY(0);
         }
 
+        @keyframes loadingBar {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        /* --- Responsive adjustments --- */
+        @media (max-width: 1024px) {
+            .grid-line-right { border-right: none; }
+            .lg\:border-r { border-right: none; }
+        }
+
+        @media (max-width: 768px) {
+            .intro-text-container {
+                height: 56px;
+            }
+            .intro-words span {
+                font-size: 2.2rem;
+                line-height: 56px;
+            }
+            .project-row > div {
+                border-right: none !important;
+            }
+            .project-row > div:first-child {
+                border-bottom: 1px solid #D1D1D1;
+            }
+            nav {
+                left: 50%;
+                transform: translateX(-50%);
+                width: min(100%, 92%);
+                max-width: 92%;
+            }
+            header .max-w-7xl,
+            .max-w-7xl.mx-auto,
+            footer .max-w-7xl.mx-auto {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            .text-6xl {
+                font-size: 3.5rem;
+            }
+            .text-4xl {
+                font-size: 2.5rem;
+            }
+            .text-3xl {
+                font-size: 2rem;
+            }
+        }
+
         /* --- Project Hover --- */
         .project-img { filter: grayscale(100%); transition: all 0.5s ease; }
         .project-row:hover .project-img { filter: grayscale(0%); transform: scale(1.02); }
