@@ -3,333 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kenya Syalwa Arifia | Interactive Digital Garden</title>
+    <title>Kenya Syalwa Arifia | Creative Developer</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome Icons -->
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Konfigurasi Tailwind Custom -->
+    <!-- Konfigurasi Tailwind -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        cream: '#FFFDF8',
-                        matchaLight: '#EEF5E7',
-                        primary: '#7BA05B',
-                        secondary: '#F47C96',
-                        accent: '#D85C77',
-                        matcha: '#4E6B3F',
-                        choco: '#6B4F4F',
+                        bgBase: '#F4F4F0',   /* Warm stone / cream */
+                        textMain: '#111111', /* Almost black */
+                        textMuted: '#555555',
+                        accentBlue: '#2563EB', /* Royal/Cobalt Blue */
+                        surface: '#FFFFFF',
+                        borderLine: '#D1D1D1',
                     },
                     fontFamily: {
-                        sans: ['Quicksand', 'sans-serif'],
-                        serif: ['Lora', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Quicksand:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Space Grotesk (Tech/Editorial display), Inter (Body) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F4F0;
+            color: #111111;
+            overflow-x: hidden;
+            /* Sembunyikan kursor asli di desktop untuk custom cursor kotak */
+            cursor: none; 
+        }
+
+        h1, h2, h3, .font-display {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        /* --- Custom Square Cursor --- */
+        #square-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 16px; height: 16px;
+            background-color: #2563EB;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            transition: width 0.2s, height 0.2s, background-color 0.2s;
+            mix-blend-mode: difference;
+            display: none;
+        }
+        @media (pointer: fine) {
+            #square-cursor { display: block; background-color: #FFFFFF; }
+            body { cursor: none; }
+            a, button { cursor: none; }
+        }
+        .cursor-hover {
+            width: 48px !important;
+            height: 48px !important;
+            background-color: #FFFFFF !important;
+        }
+
+        /* --- Intro Sequence --- */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background-color: #111111;
+            color: #F4F4F0;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+        }
+        .intro-text-container {
+            height: 60px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .intro-words {
+            display: flex;
+            flex-direction: column;
+            animation: scrollWords 3s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+        }
+        .intro-words span {
+            font-size: 3rem;
+            line-height: 60px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+        
+        @keyframes scrollWords {
+            0% { transform: translateY(0); }
+            25% { transform: translateY(-60px); }
+            50% { transform: translateY(-120px); }
+            75% { transform: translateY(-180px); }
+            100% { transform: translateY(-180px); }
+        }
+
+        .slide-up {
+            transform: translateY(-100%);
+        }
+
+        /* --- Noise Texture (Editorial Vibe) --- */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* --- Grid Borders --- */
+        .grid-line-bottom { border-bottom: 1px solid #D1D1D1; }
+        .grid-line-right { border-right: 1px solid #D1D1D1; }
+        .grid-line-top { border-top: 1px solid #D1D1D1; }
+
+        /* --- Reveal Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Project Hover --- */
+        .project-img { filter: grayscale(100%); transition: all 0.5s ease; }
+        .project-row:hover .project-img { filter: grayscale(0%); transform: scale(1.02); }
+
+        /* Hide scrollbar for a cleaner look */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+    </style>
 </head>
-<body class="antialiased selection:bg-secondary selection:text-white relative">
+<body class="selection:bg-accentBlue selection:text-white relative">
 
-    <!-- Preloader -->
-    <div id="preloader">
-        <div class="loader-icon">🍓</div>
-        <h2 class="text-matcha font-bold mt-4 tracking-widest animate-pulse">PLUCKING STRAWBERRIES...</h2>
+    <!-- Intro Sequence -->
+    <div id="intro-screen">
+        <div class="intro-text-container">
+            <div class="intro-words">
+                <span>Hello.</span>
+                <span>Bonjour.</span>
+                <span>Hola.</span>
+                <span>Halo.</span>
+            </div>
+        </div>
+        <div class="mt-8 w-48 h-[1px] bg-gray-800 relative overflow-hidden">
+            <div class="absolute top-0 left-0 h-full bg-white animate-[loadingBar_2.5s_ease-in-out_forwards]"></div>
+        </div>
     </div>
-
-    <!-- Interactive Background -->
-    <canvas id="garden-canvas"></canvas>
     
-    <!-- Steam Backgrounds -->
-    <div class="steam steam-1"></div>
-    <div class="steam steam-2"></div>
+    @keyframes loadingBar {
+        0% { width: 0%; }
+        100% { width: 100%; }
+    }
 
     <!-- Custom Cursor -->
-    <div id="custom-cursor" class="hidden md:flex"></div>
+    <div id="square-cursor"></div>
+    <div class="noise"></div>
 
-    <!-- Navbar -->
-    <nav class="fixed w-full z-50 glass-nav transition-all duration-300" id="navbar">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="logo-text text-2xl font-extrabold tracking-tight text-matcha hover:scale-105 transition-transform">
-                        kenya<span class="text-secondary">.studio</span> <span class="text-xl">✨</span>
-                    </a>
-                </div>
-                
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="#home" class="text-choco hover:text-primary transition duration-300 font-bold hover:-translate-y-1 inline-block transform">Home</a>
-                    <a href="#skills" class="text-choco hover:text-primary transition duration-300 font-bold hover:-translate-y-1 inline-block transform">Garden</a>
-                    <a href="#portfolio" class="text-choco hover:text-primary transition duration-300 font-bold hover:-translate-y-1 inline-block transform">Projects</a>
-                    <a href="#contact" class="bg-primary hover:bg-matcha text-white px-6 py-2.5 rounded-full transition duration-300 font-bold shadow-lg shadow-primary/30 btn-squish">Say Hello! 🌱</a>
-                </div>
-
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="text-matcha focus:outline-none p-2 btn-squish">
-                        <i class="fas fa-bars text-2xl"></i>
-                    </button>
-                </div>
+    <!-- Top Bar (Minimal Logo only) -->
+    <header class="w-full grid-line-bottom fixed top-0 bg-bgBase/90 backdrop-blur-sm z-40">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="font-display font-bold text-xl tracking-tight uppercase">
+                KENYA<span class="text-accentBlue">.</span>STUDIO
             </div>
+            <div class="text-xs font-medium uppercase tracking-widest text-textMuted hidden sm:block">
+                Yogyakarta, Indonesia — <span id="current-time"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bottom Taskbar Navigation -->
+    <nav class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] max-w-md">
+        <div class="bg-surface border border-textMain p-2 shadow-2xl flex justify-between items-center">
+            <a href="#hero" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest hover:bg-textMain hover:text-white transition-colors">Home</a>
+            <a href="#about" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest border-l border-borderLine hover:bg-textMain hover:text-white transition-colors">About</a>
+            <a href="#work" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest border-l border-borderLine hover:bg-textMain hover:text-white transition-colors">Work</a>
+            <a href="#contact" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest border-l border-borderLine bg-accentBlue text-white hover:bg-blue-800 transition-colors">Contact</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="min-h-screen flex items-center justify-center pt-20 relative overflow-hidden">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center gsap-hero">
-            
-            <div class="inline-block hover:animate-bounce cursor-pointer" onclick="createBurst(event)">
-                <span class="text-secondary font-extrabold tracking-widest uppercase text-sm mb-6 block bg-white/60 px-5 py-2 rounded-full border-2 border-secondary/30 shadow-sm backdrop-blur-sm">
-                    HELLO, I'M KENYA 🌱🍓
-                </span>
+    <section id="hero" class="min-h-screen pt-24 pb-12 flex flex-col justify-center border-b border-borderLine relative z-10">
+        <div class="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-12 reveal">
+                <p class="text-sm font-bold uppercase tracking-widest text-accentBlue mb-6 border-b border-borderLine inline-block pb-2">Portfolio '26</p>
+                <h1 class="text-6xl md:text-8xl lg:text-[140px] font-display font-bold leading-[0.9] tracking-tighter uppercase mb-8">
+                    Creative<br>Developer<span class="text-accentBlue">.</span>
+                </h1>
             </div>
             
-            <h1 class="text-6xl md:text-8xl font-extrabold tracking-tight mb-4 text-matcha" style="line-height: 1.1;">
-                Kenya Syalwa <br/> <span class="text-gradient">Arifia</span>
-            </h1>
-            
-            <p class="mt-4 text-lg md:text-xl text-choco/90 mx-auto mb-10 max-w-2xl leading-relaxed font-medium">
-                I enjoy exploring the intersection of technology, creativity, and human experiences. From building games and dashboards to crafting digital stories.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#portfolio" class="bg-primary hover:bg-matcha text-white px-8 py-4 rounded-full transition-all duration-300 font-extrabold shadow-xl shadow-primary/40 flex items-center justify-center gap-2 btn-squish hover:-translate-y-1">
-                    Explore My Garden <i class="fas fa-leaf animate-bounce"></i>
-                </a>
-                <a href="#contact" class="bg-white border-2 border-secondary text-secondary hover:bg-secondary hover:text-white px-8 py-4 rounded-full transition-all duration-300 font-extrabold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 btn-squish hover:-translate-y-1">
-                    Let's Connect <i class="fas fa-mug-hot"></i>
-                </a>
+            <div class="lg:col-span-5 reveal grid-line-right pr-8 hidden lg:block">
+                <p class="text-lg text-textMuted font-medium leading-relaxed">
+                    An Informatics student bridging the gap between complex logic and beautiful human experiences.
+                </p>
             </div>
-            
-            <div class="mt-16 text-sm font-bold text-choco/50 animate-bounce">
-                Scroll Down or Click Anywhere! 👇
+            <div class="lg:col-span-7 reveal">
+                <div class="w-full aspect-[21/9] bg-textMain relative overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1550439062-609e1531270e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Abstract Tech" class="w-full h-full object-cover opacity-80 mix-blend-luminosity hover:mix-blend-normal hover:scale-105 transition-all duration-700">
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Garden / Skills Section -->
-    <section id="skills" class="py-24 relative z-10 bg-matchaLight/50 border-y border-primary/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 gsap-fade-up">
-                <span class="text-primary font-extrabold tracking-widest uppercase text-sm mb-2 block">What's Growing in</span>
-                <h2 class="text-5xl font-extrabold text-matcha">My Digital <span class="text-gradient">Garden</span> 🍄</h2>
+    <!-- About Section -->
+    <section id="about" class="py-24 border-b border-borderLine relative z-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-0">
+            <!-- Left Header -->
+            <div class="lg:col-span-4 grid-line-right pr-8 pb-12 lg:pb-0 reveal">
+                <h2 class="text-4xl font-display font-bold uppercase tracking-tight">The<br>Architect.</h2>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 gsap-stagger">
+            <!-- Right Content -->
+            <div class="lg:col-span-8 lg:pl-16 reveal">
+                <h3 class="text-2xl md:text-3xl font-display font-medium leading-snug mb-8">
+                    I believe that the best digital products are born from a mix of solid logic and deep empathy.
+                </h3>
+                <p class="text-lg text-textMuted font-light leading-relaxed mb-12 max-w-2xl">
+                    My journey is diverse—ranging from game development in Unity, constructing Data Warehouses, to leading digital communication strategies. I thrive when solving problems creatively and writing code that speaks human.
+                </p>
                 
-                <!-- Skill Cards with 3D Tilt -->
-                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-green-100 to-green-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🌱</div>
-                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Code</h3>
-                    <div class="flex flex-wrap justify-center gap-2">
-                        <span class="badge badge-matcha">Python</span>
-                        <span class="badge badge-matcha">HTML</span>
-                        <span class="badge badge-matcha">JAVA</span>
-                        <span class="badge badge-matcha">C#</span>
-                        <span class="badge badge-matcha">PHP</span>
-                        <span class="badge badge-matcha">SQL</span>
+                <div class="grid grid-cols-2 md:grid-cols-4 border-t border-l border-borderLine">
+                    <div class="p-6 border-r border-b border-borderLine bg-surface hover:bg-accentBlue hover:text-white transition-colors group">
+                        <div class="text-3xl font-display font-bold mb-2">01</div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-textMuted group-hover:text-white/80">Development</div>
+                    </div>
+                    <div class="p-6 border-r border-b border-borderLine bg-surface hover:bg-accentBlue hover:text-white transition-colors group">
+                        <div class="text-3xl font-display font-bold mb-2">02</div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-textMuted group-hover:text-white/80">Data</div>
+                    </div>
+                    <div class="p-6 border-r border-b border-borderLine bg-surface hover:bg-accentBlue hover:text-white transition-colors group">
+                        <div class="text-3xl font-display font-bold mb-2">03</div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-textMuted group-hover:text-white/80">Design</div>
+                    </div>
+                    <div class="p-6 border-r border-b border-borderLine bg-surface hover:bg-accentBlue hover:text-white transition-colors group">
+                        <div class="text-3xl font-display font-bold mb-2">04</div>
+                        <div class="text-xs font-bold uppercase tracking-widest text-textMuted group-hover:text-white/80">Strategy</div>
                     </div>
                 </div>
-
-                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-red-100 to-red-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🍓</div>
-                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Data</h3>
-                    <div class="flex flex-wrap justify-center gap-2">
-                        <span class="badge badge-strawberry">Pentaho</span>
-                        <span class="badge badge-strawberry">Metabase</span>
-                        <span class="badge badge-strawberry">ETL</span>
-                        <span class="badge badge-strawberry">MySQL</span>
-                    </div>
-                </div>
-
-                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-blue-100 to-blue-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">🎨</div>
-                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Create</h3>
-                    <div class="flex flex-wrap justify-center gap-2">
-                        <span class="badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #7dd3fc;">UI/UX</span>
-                        <span class="badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #7dd3fc;">Canva</span>
-                        <span class="badge" style="background:#e0f2fe; color:#0284c7; border:1px solid #7dd3fc;">Adobe Illustrator</span>
-                    </div>
-                </div>
-
-                <div class="card-glass p-8 rounded-[2rem] text-center group cursor-pointer" data-tilt data-tilt-max="15" data-tilt-speed="400" data-tilt-glare data-tilt-max-glare="0.2">
-                    <div class="w-20 h-20 mx-auto bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-3xl flex items-center justify-center text-4xl mb-6 shadow-inner group-hover:scale-110 transition-transform">✨</div>
-                    <h3 class="font-extrabold text-2xl text-matcha mb-4">Connect</h3>
-                    <div class="flex flex-wrap justify-center gap-2">
-                        <span class="badge" style="background:#fef3c7; color:#d97706; border:1px solid #fcd34d;">Teamwork</span>
-                        <span class="badge" style="background:#fef3c7; color:#d97706; border:1px solid #fcd34d;">Leadership</span>
-                        <span class="badge" style="background:#fef3c7; color:#d97706; border:1px solid #fcd34d;">Pitching</span>
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section id="portfolio" class="py-24 relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 gsap-fade-up">
-                <span class="text-secondary font-extrabold tracking-widest uppercase text-sm mb-2 block">The Harvest</span>
-                <h2 class="text-5xl font-extrabold text-matcha">My <span class="text-gradient">Projects</span> 🧺</h2>
+    <!-- Work / Portfolio Section (1 Baris 1 Project - Kotak Tajam) -->
+    <section id="work" class="py-24 relative z-10 pb-40"> <!-- pb-40 agar tidak tertutup taskbar -->
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-20 reveal border-b border-borderLine pb-6">
+                <h2 class="text-4xl font-display font-bold uppercase tracking-tight">Selected<br>Works.</h2>
             </div>
 
-            <div class="grid grid-cols-1 gap-8">
+            <div class="flex flex-col gap-0 border-t border-l border-r border-borderLine">
                 
                 <!-- Project 1 -->
-                <!-- <div class="project-card card-glass rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row gsap-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
-                    <div class="project-img-wrapper md:w-1/2 relative h-72 md:h-auto">
-                        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80" class="project-img w-full h-full object-cover" alt="UI dashboard project image">
-                    </div>
-                    <div class="p-8 md:w-1/2 flex flex-col justify-between">
+                <div class="project-row grid grid-cols-1 lg:grid-cols-12 border-b border-borderLine group reveal">
+                    <div class="lg:col-span-5 p-6 border-r border-borderLine bg-surface flex flex-col justify-between">
                         <div>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="badge badge-matcha">Web App</span>
-                                <span class="badge badge-strawberry">HTML / CSS / JS</span>
+                            <div class="flex gap-2 mb-6">
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Java</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Intellij Idea</span>
                             </div>
-                            <h3 class="text-3xl font-extrabold mb-3 text-matcha">KenyaFest Dashboard</h3>
-                            <p class="text-choco/80 font-medium mb-6 text-lg leading-relaxed">A responsive admin dashboard that tracks event registrations, attendee trends, and real-time analytics. Built to be simple, modern, and easy to navigate.</p>
+                            <h3 class="text-3xl font-display font-bold mb-4 uppercase">TicTacToe<br>Game</h3>
+                            <p class="text-textMuted text-sm leading-relaxed mb-8">
+                                A classic desktop game built in Java as a learning project. Includes simple AI logic, clear win detection, and a polished user interface.
+                            </p>
                         </div>
-                        <div class="space-y-3">
-                            <p class="text-sm text-choco/70">Kode yang digunakan:</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="badge badge-matcha">Grid Layout</span>
-                                <span class="badge badge-matcha">Fetch API</span>
-                                <span class="badge badge-matcha">Chart.js</span>
-                            </div>
-                            <a href="https://github.com/KenyaLim/kenyafest-dashboard" class="inline-flex items-center text-secondary font-bold hover:text-accent mt-4 group">
-                                View Project <i class="fab fa-github ml-2 text-lg transition-transform group-hover:rotate-12"></i>
-                            </a>
-                        </div>
+                        <a href="https://github.com/KenyaLim/tictactoeJava.git" class="inline-block border-t border-borderLine pt-4 text-xs font-bold uppercase tracking-widest hover:text-accentBlue transition-colors w-max">
+                            View Project ->
+                        </a>
                     </div>
-                </div> -->
-
-                
-
-
-                <!-- Project 2 -->
-                <!-- <div class="project-card card-glass rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row gsap-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
-                    <div class="project-img-wrapper md:w-1/2 relative h-72 md:h-auto order-2 md:order-1">
-                        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" class="project-img w-full h-full object-cover" alt="E-commerce UI project image">
+                    <div class="lg:col-span-7 bg-gray-200 overflow-hidden relative aspect-video lg:aspect-auto">
+                        <img src=/ttt.png alt="Project 1" class="w-full h-full object-cover project-img">
                     </div>
-                    <div class="p-8 md:w-1/2 flex flex-col justify-between order-1 md:order-2">
+                </div>
+
+                <!-- Project 2 (Alternate Layout) -->
+                <!-- <div class="project-row grid grid-cols-1 lg:grid-cols-12 border-b border-borderLine group reveal">
+                    <div class="lg:col-span-7 bg-gray-200 overflow-hidden relative aspect-video lg:aspect-auto order-2 lg:order-1">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Project 2" class="w-full h-full object-cover project-img">
+                    </div>
+                    <div class="lg:col-span-5 p-6 border-l border-borderLine bg-surface flex flex-col justify-between order-1 lg:order-2">
                         <div>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="badge badge-matcha">UI/UX</span>
-                                <span class="badge badge-strawberry">Tailwind CSS</span>
+                            <div class="flex gap-2 mb-6">
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Python</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Data</span>
                             </div>
-                            <h3 class="text-3xl font-extrabold mb-3 text-matcha">MatchaCatalog UI</h3>
-                            <p class="text-choco/80 font-medium mb-6 text-lg leading-relaxed">A polished e-commerce landing page design for a boutique shop. Focused on beautiful product cards, clear calls-to-action, and smooth scrolling interactions.</p>
+                            <h3 class="text-3xl font-display font-bold mb-4 uppercase">Analytics<br>Dashboard</h3>
+                            <p class="text-textMuted text-sm leading-relaxed mb-8">
+                                Designed and developed a comprehensive data warehouse solution paired with an interactive dashboard to extract actionable insights.
+                            </p>
                         </div>
-                        <div class="space-y-3">
-                            <p class="text-sm text-choco/70">Kode yang digunakan:</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="badge badge-matcha">Tailwind</span>
-                                <span class="badge badge-matcha">Responsive Grid</span>
-                                <span class="badge badge-matcha">Hover Effects</span>
-                            </div>
-                            <a href="https://github.com/KenyaLim/matchacatalog-ui" class="inline-flex items-center text-secondary font-bold hover:text-accent mt-4 group">
-                                View Project <i class="fab fa-github ml-2 text-lg transition-transform group-hover:rotate-12"></i>
-                            </a>
-                        </div>
+                        <a href="#" class="inline-block border-t border-borderLine pt-4 text-xs font-bold uppercase tracking-widest hover:text-accentBlue transition-colors w-max">
+                            View Project ->
+                        </a>
                     </div>
                 </div> -->
 
                 <!-- Project 3 -->
-                <!-- <div class="project-card card-glass rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row gsap-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
-                    <div class="project-img-wrapper md:w-1/2 relative h-72 md:h-auto">
-                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=900&q=80" class="project-img w-full h-full object-cover" alt="Data ETL project image">
-                    </div>
-                    <div class="p-8 md:w-1/2 flex flex-col justify-between">
+                <!-- <div class="project-row grid grid-cols-1 lg:grid-cols-12 border-b border-borderLine group reveal">
+                    <div class="lg:col-span-5 p-6 border-r border-borderLine bg-surface flex flex-col justify-between">
                         <div>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="badge badge-matcha">Data</span>
-                                <span class="badge badge-strawberry">Python / SQL</span>
+                            <div class="flex gap-2 mb-6">
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Flutter</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Firebase</span>
                             </div>
-                            <h3 class="text-3xl font-extrabold mb-3 text-matcha">Data Harvest ETL</h3>
-                            <p class="text-choco/80 font-medium mb-6 text-lg leading-relaxed">A backend utility for cleaning and loading sales data into a reporting database. It includes transformation scripts and automated checks for missing values.</p>
+                            <h3 class="text-3xl font-display font-bold mb-4 uppercase">Wellness<br>Tracker App</h3>
+                            <p class="text-textMuted text-sm leading-relaxed mb-8">
+                                A holistic wellness tracking application built with Flutter, focusing on smooth animations and intuitive UI.
+                            </p>
                         </div>
-                        <div class="space-y-3">
-                            <p class="text-sm text-choco/70">Kode yang digunakan:</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="badge badge-matcha">Python</span>
-                                <span class="badge badge-matcha">Pandas</span>
-                                <span class="badge badge-matcha">MySQL</span>
-                            </div>
-                            <a href="https://github.com/KenyaLim/data-harvest-etl" class="inline-flex items-center text-secondary font-bold hover:text-accent mt-4 group">
-                                View Project <i class="fab fa-github ml-2 text-lg transition-transform group-hover:rotate-12"></i>
-                            </a>
-                        </div>
+                        <a href="#" class="inline-block border-t border-borderLine pt-4 text-xs font-bold uppercase tracking-widest hover:text-accentBlue transition-colors w-max">
+                            View Project ->
+                        </a>
+                    </div>
+                    <div class="lg:col-span-7 bg-gray-200 overflow-hidden relative aspect-video lg:aspect-auto">
+                        <img src="https://images.unsplash.com/photo-1618761714954-0b8cd0026356?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Project 3" class="w-full h-full object-cover project-img">
                     </div>
                 </div> -->
-
-                <!-- Project 4 -->
-                <div class="project-card card-glass rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row gsap-card" data-tilt data-tilt-max="5" data-tilt-speed="400" data-tilt-perspective="1000">
-                    <div class="project-img-wrapper md:w-1/2 relative h-72 md:h-auto order-2 md:order-1">
-                        <img src="ttt.png" class="project-img w-full h-full object-cover" alt="Tic Tac Toe game screenshot">
-                    </div>
-                    <div class="p-8 md:w-1/2 flex flex-col justify-between order-1 md:order-2">
-                        <div>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="badge badge-matcha">Game</span>
-                                <span class="badge badge-strawberry">Java</span>
-                            </div>
-                            <h3 class="text-3xl font-extrabold mb-3 text-matcha">Tic Tac Toe Java</h3>
-                            <p class="text-choco/80 font-medium mb-6 text-lg leading-relaxed">A classic desktop game built in Java as a learning project. Includes simple AI logic, clear win detection, and a polished user interface.</p>
-                        </div>
-                        <div class="space-y-3">
-                            <p class="text-sm text-choco/70">Kode yang digunakan:</p>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="badge badge-matcha">Java Swing</span>
-                                <span class="badge badge-matcha">OOP</span>
-                                <span class="badge badge-matcha">Game Logic</span>
-                            </div>
-                            <a href="https://github.com/KenyaLim/tictactoeJava.git" class="inline-flex items-center text-secondary font-bold hover:text-accent mt-4 group">
-                                View Project <i class="fab fa-github ml-2 text-lg transition-transform group-hover:rotate-12"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
     </section>
 
     <!-- Footer / Contact -->
-    <footer id="contact" class="bg-matchaLight/80 border-t border-primary/20 pt-24 pb-12 relative z-10 overflow-hidden">
-        <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
-            <h2 class="text-5xl md:text-6xl font-extrabold mb-6 text-matcha">Let's Create <br/> <span class="text-gradient">Something Cute!</span> 💌</h2>
-            <p class="text-choco/80 font-medium text-xl mb-10">Inbox is always open for tech, design, or matcha recommendations.</p>
+    <footer id="contact" class="bg-textMain text-bgBase py-24 relative z-10 pb-40">
+        <div class="max-w-7xl mx-auto px-6 reveal">
             
-            <div class="flex justify-center gap-4 mb-16">
-                <p class="bg-secondary text-white px-8 py-4 rounded-full transition-all duration-300 font-extrabold shadow-xl shadow-secondary/30 btn-squish text-lg flex items-center">
-                    Email to Kenyasyalwa@gmail.com
-                </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-gray-800 pt-12">
+                <div>
+                    <p class="text-lg font-light text-gray-400 mb-8 max-w-sm">
+                        Currently looking for new opportunities. Always open to discussing tech, design, or collaboration.
+                    </p>
+                </div>
+                
+                <div class="flex flex-col gap-6 md:items-end">
+                    <p class="text-2xl font-display font-medium uppercase hover:text-accentBlue transition-colors"> Kenyasyalwa@gmail.com</p>
+                </div>
             </div>
-            
-            <p class="text-choco/60 font-bold">
-                Crafted with curiosity, matcha, & physics algorithms. <br> &copy; <span id="year"></span> Kenya Syalwa Arifia.
-            </p>
+
+            <div class="mt-24 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold uppercase tracking-widest text-gray-500">
+                <div>&copy; <span id="year"></span> Kenya Syalwa Arifia.</div>
+            </div>
         </div>
-        
-        <!-- Big decorative icons in footer -->
-        <div class="absolute -bottom-10 -left-10 text-9xl opacity-20 transform -rotate-12 select-none">🍓</div>
-        <div class="absolute top-10 -right-10 text-9xl opacity-20 transform rotate-12 select-none">🍵</div>
     </footer>
 
-    <!-- Scripts: Vanilla Tilt (3D) & GSAP (Animations) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="script.js"></script>
+    <!-- Script Interaktif -->
+    <script>
+        // 1. Intro Animation Logic
+        window.addEventListener('load', () => {
+            const introScreen = document.getElementById('intro-screen');
+            // Tunggu animasi teks selesai (sekitar 2.8 detik), lalu geser layar ke atas
+            setTimeout(() => {
+                introScreen.classList.add('slide-up');
+                // Hapus dari DOM agar tidak mengganggu klik
+                setTimeout(() => {
+                    introScreen.style.display = 'none';
+                }, 1000);
+            }, 2800);
+        });
+
+        // 2. Custom Square Cursor Logic
+        const cursor = document.getElementById('square-cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+            });
+
+            // Hover effect on links and buttons
+            const interactables = document.querySelectorAll('a, button, .project-row');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        }
+
+        // 3. Update Jam dan Tahun
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('current-time').textContent = timeString + ' WIB';
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        // 4. Smooth Reveal Animation on Scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+    </script>
 </body>
 </html>
