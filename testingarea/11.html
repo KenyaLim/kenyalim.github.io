@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kenya Syalwa Arifia | Maximum Performance</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgBase: '#F2F2F2',   /* Asphalt / Cool light gray */
+                        textMain: '#0F0F0F', /* Carbon Black */
+                        textMuted: '#555555',
+                        accentOrange: '#FF4F00', /* Dutch/Verstappen Orange */
+                        surface: '#FFFFFF',
+                        borderLine: '#C2C2C2',
+                        carbon: '#1A1A1A'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'], /* For telemetry data */
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F2F2F2;
+            color: #0F0F0F;
+            overflow-x: hidden;
+            cursor: none; 
+        }
+
+        h1, h2, h3, .font-display { font-family: 'Space Grotesk', sans-serif; }
+        .font-telemetry { font-family: 'JetBrains Mono', monospace; }
+
+        /* --- Custom Square Cursor (Dutch Orange) --- */
+        #square-cursor {
+            position: fixed;
+            top: 0; left: 0;
+            width: 16px; height: 16px;
+            background-color: #FF4F00;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            pointer-events: none;
+            transition: width 0.15s ease-out, height 0.15s ease-out, background-color 0.15s;
+            mix-blend-mode: difference;
+            display: none;
+        }
+        @media (pointer: fine) {
+            #square-cursor { display: block; }
+            body { cursor: none; }
+            a, button { cursor: none; }
+        }
+        .cursor-hover {
+            width: 54px !important;
+            height: 54px !important;
+            background-color: #FFFFFF !important;
+            border-radius: 0;
+        }
+
+        /* --- Intro Sequence: "Lights Out" F1 Style --- */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background-color: #0F0F0F;
+            color: #F2F2F2;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        
+        .lights-container {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .light-box {
+            width: 60px; height: 100px;
+            background-color: #1A1A1A;
+            border: 2px solid #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 4px;
+        }
+        
+        .light-circle {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            background-color: #222;
+            box-shadow: inset 0 0 10px #000;
+            transition: background-color 0.1s, box-shadow 0.1s;
+        }
+        
+        .light-circle.on {
+            background-color: #FF0000;
+            box-shadow: 0 0 30px #FF0000, inset 0 0 10px #FFaaaa;
+        }
+
+        #intro-text {
+            font-size: 3rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            opacity: 0;
+            color: #FF4F00;
+            transform: scale(0.9);
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .slide-up { transform: translateY(-100%); }
+
+        /* --- Noise & Checkered Textures --- */
+        .noise {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+        
+        .checkered-hover:hover {
+            background-image: linear-gradient(45deg, #0F0F0F 25%, transparent 25%), linear-gradient(-45deg, #0F0F0F 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #0F0F0F 75%), linear-gradient(-45deg, transparent 75%, #0F0F0F 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            color: transparent;
+        }
+
+        /* --- Grid Borders --- */
+        .grid-line-bottom { border-bottom: 1px solid #C2C2C2; }
+        .grid-line-right { border-right: 1px solid #C2C2C2; }
+        .grid-line-top { border-top: 1px solid #C2C2C2; }
+        .dark-grid { border-color: #333 !important; }
+
+        /* --- Reveal Animations --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Project Hover --- */
+        .project-img { filter: grayscale(100%) contrast(1.1); transition: all 0.4s ease-out; }
+        .project-row:hover .project-img { filter: grayscale(0%) contrast(1.05); transform: scale(1.03); }
+
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* F1 Speed Line Decoration */
+        .speed-line {
+            width: 0%;
+            height: 3px;
+            background-color: #FF4F00;
+            transition: width 0.4s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+        .group:hover .speed-line { width: 100%; }
+    </style>
+</head>
+<body class="selection:bg-accentOrange selection:text-white relative">
+
+    <!-- Intro Sequence: F1 Starting Grid -->
+    <div id="intro-screen">
+        <div class="font-telemetry text-accentOrange text-sm mb-12 tracking-widest uppercase opacity-70">Grid Sequence Initiation</div>
+        <div class="lights-container">
+            <div class="light-box"><div class="light-circle" id="l1"></div></div>
+            <div class="light-box"><div class="light-circle" id="l2"></div></div>
+            <div class="light-box"><div class="light-circle" id="l3"></div></div>
+            <div class="light-box"><div class="light-circle" id="l4"></div></div>
+            <div class="light-box"><div class="light-circle" id="l5"></div></div>
+        </div>
+        <div id="intro-text">Lights Out</div>
+    </div>
+    
+    <!-- Custom Cursor -->
+    <div id="square-cursor"></div>
+    <div class="noise"></div>
+
+    <!-- Top Bar -->
+    <header class="w-full grid-line-bottom fixed top-0 bg-bgBase/90 backdrop-blur-md z-40">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex justify-between items-center">
+            <div class="font-display font-bold text-xl tracking-tight uppercase flex items-center gap-2">
+                KENYA <span class="bg-textMain text-white px-2 py-0.5 text-sm ml-1 transform -skew-x-12">RACING</span>
+            </div>
+            <div class="font-telemetry text-xs font-bold uppercase tracking-widest text-textMuted flex items-center gap-6">
+                <span class="hidden md:inline-block text-accentOrange animate-pulse">● REC</span>
+                <span class="hidden sm:inline-block">SYS.MODE: PUSH</span>
+                <span id="current-time" class="w-24 text-right"></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bottom Taskbar Navigation -->
+    <nav class="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-lg">
+        <div class="bg-surface border-2 border-textMain p-1.5 shadow-2xl flex justify-between items-center transform -skew-x-6">
+            <a href="#hero" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest hover:bg-textMain hover:text-white transition-colors transform skew-x-6">Sector 1</a>
+            <a href="#about" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest border-l-2 border-borderLine hover:bg-textMain hover:text-white transition-colors transform skew-x-6">About</a>
+            <a href="#work" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest border-l-2 border-borderLine hover:bg-textMain hover:text-white transition-colors transform skew-x-6">Garage</a>
+            <a href="#contact" class="nav-link w-1/4 py-3 text-center text-xs font-bold uppercase tracking-widest border-l-2 border-borderLine bg-accentOrange text-white hover:bg-textMain transition-colors transform skew-x-6">Radio</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-[85vh] py-12 flex flex-col justify-center border-b border-borderLine relative z-10 overflow-hidden">
+        <!-- Verstappen 1 Watermark -->
+        <div class="absolute -right-20 top-1/2 transform -translate-y-1/2 text-[400px] font-display font-extrabold text-gray-200/50 opacity-40 select-none z-[-1] tracking-tighter italic">
+            MV1
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 relative">
+            <div class="lg:col-span-12 reveal">
+                <div class="flex items-center gap-4 mb-6">
+                    <p class="font-telemetry text-sm font-bold uppercase tracking-widest text-textMuted bg-gray-200 px-3 py-1">Aerodynamic Code</p>
+                    <p class="font-telemetry text-sm font-bold uppercase tracking-widest text-accentOrange animate-pulse border border-accentOrange px-3 py-1">P1</p>
+                </div>
+                <h1 class="text-6xl md:text-8xl lg:text-[130px] font-display font-extrabold leading-[0.85] tracking-tighter uppercase mb-8 transform -skew-x-6">
+                    Maximum<br>Performance<span class="text-accentOrange">.</span>
+                </h1>
+            </div>
+            
+            <div class="lg:col-span-5 reveal grid-line-right pr-8 hidden lg:block">
+                <p class="text-lg text-textMuted font-medium leading-relaxed border-l-4 border-accentOrange pl-4">
+                    Engineered for precision. I am a creative developer bridging the gap between raw data logic and beautiful human experiences. Mentality: <strong class="text-textMain">Simply lovely.</strong>
+                </p>
+            </div>
+            <div class="lg:col-span-7 reveal">
+                <!-- F1 inspired abstract image placeholder -->
+                <div class="w-full aspect-[21/9] bg-textMain relative overflow-hidden group">
+                    <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Speed" class="w-full h-full object-cover opacity-80 mix-blend-luminosity group-hover:mix-blend-normal group-hover:scale-110 transition-all duration-1000">
+                    <div class="absolute bottom-4 right-4 bg-surface px-4 py-2 text-xs font-bold uppercase tracking-widest flex items-center gap-2">
+                        <div class="w-2 h-2 bg-accentOrange rounded-full animate-ping"></div> Telemetry Active
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 border-b border-borderLine relative z-10">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-0">
+            <!-- Left Header -->
+            <div class="lg:col-span-4 grid-line-right pr-8 pb-12 lg:pb-0 reveal">
+                <h2 class="text-5xl font-display font-bold uppercase tracking-tight transform -skew-x-6">The<br>Mechanic.</h2>
+                <p class="font-telemetry text-xs mt-4 text-textMuted uppercase border-b border-borderLine pb-2">Pit Wall Strategy</p>
+            </div>
+            <!-- Right Content -->
+            <div class="lg:col-span-8 lg:pl-16 reveal">
+                <h3 class="text-3xl font-display font-bold leading-snug mb-8 uppercase">
+                    I treat code like a <span class="text-accentOrange">race car setup</span>. Every line must serve a purpose for maximum efficiency.
+                </h3>
+                <p class="text-lg text-textMuted font-light leading-relaxed mb-12 max-w-2xl border-l-2 border-borderLine pl-6">
+                    My journey spans across the entire digital grid—ranging from Unity game development, assembling Data Warehouses, to executing digital strategies. I thrive when solving complex problems under pressure.
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 border-t-2 border-l-2 border-textMain">
+                    <div class="p-6 border-r-2 border-b-2 border-textMain bg-surface hover:bg-accentOrange hover:text-white transition-colors group relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0"></div>
+                        <div class="text-4xl font-display font-extrabold mb-2 italic">G1</div>
+                        <div class="font-telemetry text-[10px] font-bold uppercase tracking-widest text-textMuted group-hover:text-white/90">Development</div>
+                    </div>
+                    <div class="p-6 border-r-2 border-b-2 border-textMain bg-surface hover:bg-accentOrange hover:text-white transition-colors group relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0"></div>
+                        <div class="text-4xl font-display font-extrabold mb-2 italic">G2</div>
+                        <div class="font-telemetry text-[10px] font-bold uppercase tracking-widest text-textMuted group-hover:text-white/90">Data & ETL</div>
+                    </div>
+                    <div class="p-6 border-r-2 border-b-2 border-textMain bg-surface hover:bg-accentOrange hover:text-white transition-colors group relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0"></div>
+                        <div class="text-4xl font-display font-extrabold mb-2 italic">G3</div>
+                        <div class="font-telemetry text-[10px] font-bold uppercase tracking-widest text-textMuted group-hover:text-white/90">UI / UX Design</div>
+                    </div>
+                    <div class="p-6 border-r-2 border-b-2 border-textMain bg-surface hover:bg-textMain hover:text-accentOrange transition-colors group relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0 bg-white"></div>
+                        <div class="text-4xl font-display font-extrabold mb-2 italic">G4</div>
+                        <div class="font-telemetry text-[10px] font-bold uppercase tracking-widest text-textMuted group-hover:text-accentOrange/90">Team Strategy</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work / Portfolio Section -->
+    <section id="work" class="py-24 relative z-10 pb-40"> 
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-20 reveal border-b-4 border-textMain pb-6 flex justify-between items-end">
+                <h2 class="text-5xl font-display font-bold uppercase tracking-tight transform -skew-x-6">The<br>Garage.</h2>
+                <p class="font-telemetry font-bold text-accentOrange text-sm">SECTOR PURPLE</p>
+            </div>
+
+            <div class="flex flex-col gap-0 border-2 border-textMain bg-surface">
+                
+                <!-- Project 1 -->
+                <div class="project-row grid grid-cols-1 lg:grid-cols-12 border-b-2 border-textMain group reveal">
+                    <div class="lg:col-span-5 p-8 border-r-2 border-textMain flex flex-col justify-between relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0 h-full w-[4px]"></div>
+                        <div>
+                            <div class="flex gap-2 mb-6 font-telemetry">
+                                <span class="text-[10px] font-bold uppercase tracking-widest bg-textMain text-white px-2 py-1">React</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Tailwind</span>
+                            </div>
+                            <h3 class="text-4xl font-display font-bold mb-4 uppercase transform -skew-x-6">E-Commerce<br>Redesign</h3>
+                            <p class="text-textMuted text-sm leading-relaxed mb-8 border-l-2 border-borderLine pl-4">
+                                A high-performance overhaul of a legacy e-commerce platform. Reduced page load times drastically and streamlined the checkout flow.
+                            </p>
+                        </div>
+                        <a href="#" class="inline-flex items-center font-telemetry text-xs font-bold uppercase tracking-widest hover:text-accentOrange transition-colors w-max bg-gray-100 px-4 py-2 border border-borderLine group-hover:border-accentOrange">
+                            Launch App <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="lg:col-span-7 bg-carbon overflow-hidden relative aspect-video lg:aspect-auto">
+                        <img src="https://images.unsplash.com/photo-1600132806370-bf17e65e942f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Project 1" class="w-full h-full object-cover project-img">
+                    </div>
+                </div>
+
+                <!-- Project 2 (Alternate Layout) -->
+                <div class="project-row grid grid-cols-1 lg:grid-cols-12 border-b-2 border-textMain group reveal">
+                    <div class="lg:col-span-7 bg-carbon overflow-hidden relative aspect-video lg:aspect-auto order-2 lg:order-1">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Project 2" class="w-full h-full object-cover project-img">
+                    </div>
+                    <div class="lg:col-span-5 p-8 border-l-2 border-textMain flex flex-col justify-between order-1 lg:order-2 relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0 h-full w-[4px]"></div>
+                        <div>
+                            <div class="flex gap-2 mb-6 font-telemetry">
+                                <span class="text-[10px] font-bold uppercase tracking-widest bg-textMain text-white px-2 py-1">Python</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Data</span>
+                            </div>
+                            <h3 class="text-4xl font-display font-bold mb-4 uppercase transform -skew-x-6">Telemetry<br>Dashboard</h3>
+                            <p class="text-textMuted text-sm leading-relaxed mb-8 border-l-2 border-borderLine pl-4">
+                                Designed and developed a comprehensive data warehouse solution paired with an interactive dashboard to extract actionable analytics insights.
+                            </p>
+                        </div>
+                        <a href="#" class="inline-flex items-center font-telemetry text-xs font-bold uppercase tracking-widest hover:text-accentOrange transition-colors w-max bg-gray-100 px-4 py-2 border border-borderLine group-hover:border-accentOrange">
+                            View Case Study <i class="fas fa-external-link-alt ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-row grid grid-cols-1 lg:grid-cols-12 group reveal">
+                    <div class="lg:col-span-5 p-8 border-r-2 border-textMain flex flex-col justify-between relative overflow-hidden">
+                        <div class="speed-line absolute top-0 left-0 h-full w-[4px]"></div>
+                        <div>
+                            <div class="flex gap-2 mb-6 font-telemetry">
+                                <span class="text-[10px] font-bold uppercase tracking-widest bg-textMain text-white px-2 py-1">Unity</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">C#</span>
+                            </div>
+                            <h3 class="text-4xl font-display font-bold mb-4 uppercase transform -skew-x-6">Simulation<br>Engine</h3>
+                            <p class="text-textMuted text-sm leading-relaxed mb-8 border-l-2 border-borderLine pl-4">
+                                A high-fidelity physics and simulation environment built in Unity, focusing on realistic mechanics and structural optimization.
+                            </p>
+                        </div>
+                        <a href="#" class="inline-flex items-center font-telemetry text-xs font-bold uppercase tracking-widest hover:text-accentOrange transition-colors w-max bg-gray-100 px-4 py-2 border border-borderLine group-hover:border-accentOrange">
+                            Play Demo <i class="fas fa-gamepad ml-2"></i>
+                        </a>
+                    </div>
+                    <div class="lg:col-span-7 bg-carbon overflow-hidden relative aspect-video lg:aspect-auto">
+                        <img src="https://images.unsplash.com/photo-1518998053401-878c7356c282?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Project 3" class="w-full h-full object-cover project-img">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / Team Radio -->
+    <footer id="contact" class="bg-carbon text-surface py-24 relative z-10 pb-40">
+        <!-- Checker pattern overlay on footer -->
+        <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(45deg, #FFF 25%, transparent 25%), linear-gradient(-45deg, #FFF 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #FFF 75%), linear-gradient(-45deg, transparent 75%, #FFF 75%); background-size: 40px 40px;"></div>
+
+        <div class="max-w-7xl mx-auto px-6 reveal relative z-10">
+            <div class="flex items-center gap-4 mb-8">
+                <span class="w-3 h-3 bg-accentOrange rounded-full animate-ping"></span>
+                <p class="font-telemetry text-sm font-bold uppercase tracking-widest text-accentOrange">Team Radio</p>
+            </div>
+            
+            <h2 class="text-6xl md:text-8xl font-display font-extrabold uppercase tracking-tighter leading-[0.9] mb-12 transform -skew-x-6 text-white">
+                Box. Box.<br>Let's Talk.
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-gray-800 pt-12">
+                <div>
+                    <p class="text-lg font-light text-gray-400 mb-8 max-w-sm">
+                        Ready to push for the fastest lap? I'm open for new opportunities, tech collaborations, or strategy discussions.
+                    </p>
+                    <a href="mailto:hello@example.com" class="inline-block border-2 border-accentOrange bg-accentOrange px-8 py-4 text-sm font-bold uppercase tracking-widest hover:bg-transparent hover:text-accentOrange transition-colors transform -skew-x-6">
+                        <span class="inline-block transform skew-x-6">Send Message <i class="fas fa-flag-checkered ml-2"></i></span>
+                    </a>
+                </div>
+                
+                <div class="flex flex-col gap-6 md:items-end">
+                    <a href="#" class="text-2xl font-display font-bold uppercase hover:text-accentOrange transition-colors border-b border-transparent hover:border-accentOrange">LinkedIn</a>
+                    <a href="#" class="text-2xl font-display font-bold uppercase hover:text-accentOrange transition-colors border-b border-transparent hover:border-accentOrange">GitHub</a>
+                    <a href="#" class="text-2xl font-display font-bold uppercase hover:text-accentOrange transition-colors border-b border-transparent hover:border-accentOrange">Instagram</a>
+                </div>
+            </div>
+
+            <div class="mt-24 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 font-telemetry text-xs font-bold uppercase tracking-widest text-gray-500">
+                <div>&copy; <span id="year"></span> Kenya Syalwa Arifia.</div>
+                <div>Mentality: <span class="text-accentOrange">Simply Lovely.</span></div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script Interaktif -->
+    <script>
+        // 1. F1 Lights Out Animation Sequence
+        window.addEventListener('load', () => {
+            const introScreen = document.getElementById('intro-screen');
+            const introText = document.getElementById('intro-text');
+            const lights = [
+                document.getElementById('l1'),
+                document.getElementById('l2'),
+                document.getElementById('l3'),
+                document.getElementById('l4'),
+                document.getElementById('l5')
+            ];
+            
+            let delay = 300; // Start delay
+            
+            // Turn on lights sequentially
+            lights.forEach((light, index) => {
+                setTimeout(() => {
+                    light.classList.add('on');
+                }, delay + (index * 600)); // 0.6s gap between lights
+            });
+
+            // Lights out and Text appears
+            const lightsOutTime = delay + (5 * 600) + 800; // Wait a bit after 5th light
+            setTimeout(() => {
+                lights.forEach(light => light.classList.remove('on'));
+                introText.style.opacity = '1';
+                introText.style.transform = 'scale(1)';
+            }, lightsOutTime);
+
+            // Slide up screen
+            setTimeout(() => {
+                introScreen.classList.add('slide-up');
+                setTimeout(() => {
+                    introScreen.style.display = 'none';
+                }, 800);
+            }, lightsOutTime + 1200); // Wait 1.2s to read "Lights Out"
+        });
+
+        // 2. Custom Square Cursor Logic (Dutch Orange)
+        const cursor = document.getElementById('square-cursor');
+        if (window.matchMedia("(pointer: fine)").matches) {
+            document.addEventListener('mousemove', (e) => {
+                cursor.style.transform = `translate(calc(${e.clientX}px - 50%), calc(${e.clientY}px - 50%))`;
+            });
+
+            const interactables = document.querySelectorAll('a, button, .project-row, .light-box');
+            interactables.forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        }
+
+        // 3. Update Telemetry Clock and Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+        
+        function updateTime() {
+            const now = new Date();
+            const ms = now.getMilliseconds().toString().padStart(3, '0');
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            document.getElementById('current-time').textContent = timeString + ':' + ms.substring(0,2);
+            
+            // Loop quickly for the ms effect
+            requestAnimationFrame(updateTime);
+        }
+        updateTime();
+
+        // 4. Smooth Reveal Animation on Scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
