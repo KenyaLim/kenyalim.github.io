@@ -88,7 +88,7 @@
             transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
         }
         .intro-text-container {
-            height: 60px;
+            height: 72px;
             overflow: hidden;
             display: flex;
             justify-content: center;
@@ -101,17 +101,17 @@
         }
         .intro-words span {
             font-size: 3rem;
-            line-height: 60px;
+            line-height: 72px;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
         }
         
         @keyframes scrollWords {
             0% { transform: translateY(0); }
-            25% { transform: translateY(-60px); }
-            50% { transform: translateY(-120px); }
-            75% { transform: translateY(-180px); }
-            100% { transform: translateY(-180px); }
+            25% { transform: translateY(-70px); }
+            50% { transform: translateY(-144px); }
+            75% { transform: translateY(-216px); }
+            100% { transform: translateY(-216px); }
         }
 
         .slide-up {
@@ -162,6 +162,7 @@
                 <span>Bonjour.</span>
                 <span>Hola.</span>
                 <span>Halo.</span>
+                <span>Bonjour.</span>
             </div>
         </div>
         <div class="mt-8 w-48 h-[1px] bg-gray-800 relative overflow-hidden">
@@ -273,7 +274,6 @@
                             <div class="flex gap-2 mb-6">
                                 <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Java</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Intellij Idea</span>
-                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1"> Ongoing</span>
                                 <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">beta</span>
                             </div>
                             <h3 class="text-3xl font-display font-bold mb-4 uppercase">safewalk system<br>community driven<br>security protocol</h3>
@@ -296,7 +296,7 @@
                         <div>
                             <div class="flex gap-2 mb-6">
                                 <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">Html</span>
-                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">ongoing</span>
+                                <span class="text-[10px] font-bold uppercase tracking-widest border border-textMain px-2 py-1">beta</span>
                             </div>
                             <h3 class="text-3xl font-display font-bold mb-4 uppercase">v-impact<br>engineering<br>sustainable</h3>
                             <p class="text-textMuted text-sm leading-relaxed mb-8">
@@ -369,14 +369,14 @@
         // 1. Intro Animation Logic
         window.addEventListener('load', () => {
             const introScreen = document.getElementById('intro-screen');
-            // Tunggu animasi teks selesai (sekitar 2.8 detik), lalu geser layar ke atas
+            // Tunggu animasi teks selesai (sekitar 3 detik), lalu geser layar ke atas
             setTimeout(() => {
                 introScreen.classList.add('slide-up');
                 // Hapus dari DOM agar tidak mengganggu klik
                 setTimeout(() => {
                     introScreen.style.display = 'none';
                 }, 1000);
-            }, 2800);
+            }, 3000);
         });
 
         // 2. Custom Square Cursor Logic
